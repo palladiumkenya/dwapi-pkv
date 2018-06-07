@@ -9,5 +9,9 @@ namespace DwapiCentral.Cbs.Core.Model
         public int PatientPk { get; set; }
         public int SiteCode { get; set; }
         public Guid FacilityId { get; set; }
+
+        public MasterPatientIndex()
+        {
+        }
     }
 }

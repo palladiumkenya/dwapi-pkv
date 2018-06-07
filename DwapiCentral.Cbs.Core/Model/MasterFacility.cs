@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Xml;
 using DwapiCentral.SharedKernel;
 using DwapiCentral.SharedKernel.Model;
@@ -8,8 +9,30 @@ namespace DwapiCentral.Cbs.Core.Model
 {
     public class MasterFacility:Entity<int>
     {
-        [MaxLength(150)]
+        [DatabaseGenerated(DatabaseGeneratedOption.None)]
+        public override int Id { get; set; }
+
+        [MaxLength(120)]
         public string Name { get; set; }
+        [MaxLength(120)]
+        public string County { get; set; }
+
         public ICollection<Facility> Mentions { get; set; }=new List<Facility>();
+
+        public MasterFacility()
+        {
+        }
+
+        public MasterFacility(int id, string name, string county)
+        {
+            Id = id;
+            Name = name;
+            County = county;
+        }
+
+        public override string ToString()
+        {
+            return $"{Name} [{County}]";
+        }
     }
 }

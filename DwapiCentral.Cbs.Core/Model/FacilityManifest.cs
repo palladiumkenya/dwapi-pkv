@@ -10,5 +10,9 @@ namespace DwapiCentral.Cbs.Core.Model
         public int AmountRecievied { get; set; }
         public Guid FacilityId { get; set; }
         public DateTime DateLogged { get; set; }=DateTime.Now;
+
+        public FacilityManifest()
+        {
+        }
     }
 }

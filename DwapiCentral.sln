@@ -29,9 +29,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DwapiCentral.SharedKernel.T
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DwapiCentral.SharedKernel.Infrastructure.Tests", "DwapiCentral.SharedKernel.Infrastructure.Tests\DwapiCentral.SharedKernel.Infrastructure.Tests.csproj", "{9FF2BF59-FDA7-43DB-9F2D-C0A15CACB4E6}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ConsoleApp", "ConsoleApp", "{3D0677AC-7EE7-4C45-8C21-76A1DBC2CDC4}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Wapi", "Wapi", "{2C7629BE-DCBF-4266-82A7-4758602744A6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DwapiCentral.ConsoleApp", "DwapiCentral.ConsoleApp\DwapiCentral.ConsoleApp.csproj", "{57D64A86-41EF-4C8C-A330-C305BE5B56F2}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DwapiCentral", "DwapiCentral\DwapiCentral.csproj", "{8A9C0692-2393-4624-9254-9D9B577FD87A}"
+EndProject
+Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{799D396A-BA2F-44EE-A12B-38417CE15672}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -71,10 +73,14 @@ Global
 		{9FF2BF59-FDA7-43DB-9F2D-C0A15CACB4E6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9FF2BF59-FDA7-43DB-9F2D-C0A15CACB4E6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9FF2BF59-FDA7-43DB-9F2D-C0A15CACB4E6}.Release|Any CPU.Build.0 = Release|Any CPU
-		{57D64A86-41EF-4C8C-A330-C305BE5B56F2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{57D64A86-41EF-4C8C-A330-C305BE5B56F2}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{57D64A86-41EF-4C8C-A330-C305BE5B56F2}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{57D64A86-41EF-4C8C-A330-C305BE5B56F2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8A9C0692-2393-4624-9254-9D9B577FD87A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8A9C0692-2393-4624-9254-9D9B577FD87A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8A9C0692-2393-4624-9254-9D9B577FD87A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8A9C0692-2393-4624-9254-9D9B577FD87A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{799D396A-BA2F-44EE-A12B-38417CE15672}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{799D396A-BA2F-44EE-A12B-38417CE15672}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{799D396A-BA2F-44EE-A12B-38417CE15672}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{799D396A-BA2F-44EE-A12B-38417CE15672}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -91,7 +97,7 @@ Global
 		{EC559EC0-0660-4BC3-9F66-B3DCC97A4E44} = {16F0C266-53CF-46FA-857E-76E25264898E}
 		{43552933-C2DF-4B3B-A797-147431634819} = {80B80A93-0D42-4AFB-92F5-6345FA24B110}
 		{9FF2BF59-FDA7-43DB-9F2D-C0A15CACB4E6} = {AD6B0CCD-C849-44EF-AC51-9C6FEDE6B62C}
-		{57D64A86-41EF-4C8C-A330-C305BE5B56F2} = {3D0677AC-7EE7-4C45-8C21-76A1DBC2CDC4}
+		{8A9C0692-2393-4624-9254-9D9B577FD87A} = {2C7629BE-DCBF-4266-82A7-4758602744A6}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {1845D60F-C07B-4BB6-B482-6CF1F5FE6A47}

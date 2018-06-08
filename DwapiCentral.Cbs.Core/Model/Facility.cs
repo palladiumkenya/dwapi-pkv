@@ -13,7 +13,7 @@ namespace DwapiCentral.Cbs.Core.Model
         public int? MasterFacilityId { get; set; }
         public DateTime DateCreated { get; set; } = DateTime.Now;
         public ICollection<MasterPatientIndex> MasterPatientIndices { get; set; }=new List<MasterPatientIndex>();
-        public ICollection<FacilityManifest> Manifests { get; set; }=new List<FacilityManifest>();
+        public ICollection<Manifest> Manifests { get; set; }=new List<Manifest>();
 
         public Facility()
         {
@@ -23,6 +23,16 @@ namespace DwapiCentral.Cbs.Core.Model
         {
             SiteCode = siteCode;
             Name = name;
+        }
+
+        public Facility(int siteCode, string name, int? masterFacilityId):this(siteCode,name)
+        {
+            MasterFacilityId = masterFacilityId;
+        }
+
+        public override string ToString()
+        {
+            return $"{Name} - {SiteCode}";
         }
     }
 }

@@ -1,12 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
+using Dapper;
 using DwapiCentral.SharedKernel.Interfaces;
 using DwapiCentral.SharedKernel.Model;
 using Microsoft.EntityFrameworkCore;
+using Z.Dapper.Plus;
 
 namespace DwapiCentral.SharedKernel.Infrastructure.Data
 {
@@ -28,14 +31,9 @@ namespace DwapiCentral.SharedKernel.Infrastructure.Data
             return DbSet.FindAsync(id);
         }
 
-        public void Create(T entity)
+        public Task<T> GetAsync(Expression<Func<T, bool>> predicate)
         {
-            DbSet.Add(entity);
-        }
-
-        public T Get(Expression<Func<T, bool>> predicate)
-        {
-            return GetAll(predicate).FirstOrDefault();
+            return DbSet.Where(predicate).AsNoTracking().FirstOrDefaultAsync();
         }
 
         public IEnumerable<T> GetAll(Expression<Func<T, bool>> predicate)
@@ -43,9 +41,45 @@ namespace DwapiCentral.SharedKernel.Infrastructure.Data
             return DbSet.Where(predicate).AsNoTracking();
         }
 
-        public void Save()
+        public void Create(T entity)
+        {
+            DbSet.Add(entity);
+        }
+
+        public virtual void CreateBulk(IEnumerable<T> entities)
+        {
+            using (var cn=new SqlConnection(ConnectionString))
+            {
+                cn.BulkInsert(entities);
+            }
+        }
+
+        public virtual void UpdateBulk(IEnumerable<T> entities)
+        {
+            using (var cn = new SqlConnection(ConnectionString))
+            {
+                cn.BulkUpdate(entities);
+            }
+        }
+
+        public virtual void Save()
         {
             Context.SaveChanges();
+        }
+
+        public virtual Task<int> SaveAsync()
+        {
+            return Context.SaveChangesAsync();
+        }
+
+        public virtual async Task<int> ExecSqlAsync(string sql)
+        {
+            using (var cn = new SqlConnection(ConnectionString))
+            {
+                await cn.ExecuteAsync(sql);
+            }
+
+            return 1;
         }
 
         public IDbConnection GetDbConnection()

@@ -8,5 +8,11 @@ namespace DwapiCentral.SharedKernel.Exceptions
         {
             
         }
+
+        public FacilityNotFoundException(Guid id) : base($"Facility not found with Id {id}")
+        {
+
+        }
+
     }
 }

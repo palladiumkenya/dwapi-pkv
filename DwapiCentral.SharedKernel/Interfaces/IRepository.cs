@@ -11,11 +11,16 @@ namespace DwapiCentral.SharedKernel.Interfaces
     public interface IRepository<T, in TId> where T : Entity<TId>
     {
         string ConnectionString { get; }
+
         Task<T> GetAsync(TId id);
-        void Create(T entity);
-        T Get(Expression<Func<T, bool>> predicate);
+        Task<T> GetAsync(Expression<Func<T, bool>> predicate);
         IEnumerable<T> GetAll(Expression<Func<T, bool>> predicate);
+        void Create(T entity);
+        void CreateBulk(IEnumerable<T> entities);
+        void UpdateBulk(IEnumerable<T> entities);
         void Save();
+        Task<int> SaveAsync();
+        Task<int> ExecSqlAsync(string sql);
         IDbConnection GetDbConnection();
     }
 }

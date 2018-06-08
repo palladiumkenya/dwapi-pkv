@@ -24,5 +24,11 @@ namespace DwapiCentral.SharedKernel.Utils
         {
             return value.EndsWith(end) ? value : $"{value}{end}";
         }
+        public static bool IsSameAs(this string value, string end)
+        {
+            if((null!=value)&&(null!=end))
+                return value.ToLower().Trim() == end.ToLower().Trim();
+            return false;
+        }
     }
 }

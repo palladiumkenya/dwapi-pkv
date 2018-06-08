@@ -4,6 +4,7 @@ using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
 using DwapiCentral.Cbs.Core.Interfaces;
+using DwapiCentral.Cbs.Core.Interfaces.Repository;
 using DwapiCentral.Cbs.Infrastructure.Data;
 using DwapiCentral.Cbs.Infrastructure.Data.Repository;
 using DwapiCentral.SharedKernel.Infrastructure.Data;

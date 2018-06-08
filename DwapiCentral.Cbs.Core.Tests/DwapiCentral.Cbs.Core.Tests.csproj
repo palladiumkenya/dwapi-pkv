@@ -26,6 +26,7 @@
   <ItemGroup>
     <ProjectReference Include="..\DwapiCentral.Cbs.Core\DwapiCentral.Cbs.Core.csproj" />
     <ProjectReference Include="..\DwapiCentral.Cbs.Infrastructure\DwapiCentral.Cbs.Infrastructure.csproj" />
+    <ProjectReference Include="..\DwapiCentral.SharedKernel.Tests\DwapiCentral.SharedKernel.Tests.csproj" />
   </ItemGroup>
 
 </Project>

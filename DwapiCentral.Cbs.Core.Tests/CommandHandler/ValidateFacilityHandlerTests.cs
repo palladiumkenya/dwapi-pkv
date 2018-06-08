@@ -2,6 +2,7 @@
 using DwapiCentral.Cbs.Core.Command;
 using DwapiCentral.Cbs.Core.CommandHandler;
 using DwapiCentral.Cbs.Core.Interfaces;
+using DwapiCentral.Cbs.Core.Interfaces.Repository;
 using DwapiCentral.Cbs.Core.Model;
 using DwapiCentral.Cbs.Infrastructure.Data;
 using DwapiCentral.Cbs.Infrastructure.Data.Repository;
@@ -16,10 +17,8 @@ namespace DwapiCentral.Cbs.Core.Tests.CommandHandler
     [TestFixture]
     public class ValidateFacilityHandlerTests
     {
-        private ValidateFacilityHandler _handler;
         private ServiceProvider _serviceProvider;
         private IMediator _mediator;
-        private CbsContext _context;
 
         [OneTimeSetUp]
         public void Init()
@@ -31,9 +30,9 @@ namespace DwapiCentral.Cbs.Core.Tests.CommandHandler
                 .BuildServiceProvider();
 
             
-            _context = _serviceProvider.GetService<CbsContext>();
-            _context.MasterFacilities.Add(new MasterFacility(1, "XFacility", "XCounty"));
-            _context.SaveChanges();
+           var  context = _serviceProvider.GetService<CbsContext>();
+            context.MasterFacilities.Add(new MasterFacility(1, "XFacility", "XCounty"));
+            context.SaveChanges();
         }
 
         [SetUp]
@@ -45,7 +44,7 @@ namespace DwapiCentral.Cbs.Core.Tests.CommandHandler
         [Test]
         public void should_Throw_Exception_Invalid_SiteCode()
         {
-          var ex=  Assert.Throws<System.AggregateException>(() =>CheckFacility(2));
+          var ex=  Assert.Throws<System.AggregateException>(() =>CheckMasterFacility(2));
             Assert.AreEqual(typeof(FacilityNotFoundException),ex.InnerException.GetType());
             Console.WriteLine($"{ex.InnerException.Message}");
         }
@@ -53,12 +52,12 @@ namespace DwapiCentral.Cbs.Core.Tests.CommandHandler
         [Test]
         public void should_return_Validated_Facility()
         {
-            var fac = CheckFacility(1);
-            Assert.False(string.IsNullOrWhiteSpace(fac));
-            Console.WriteLine(fac);
+            var masterFacility = CheckMasterFacility(1);
+            Assert.NotNull(masterFacility);
+            Console.WriteLine(masterFacility);
         }
 
-        private  string CheckFacility(int code)
+        private  MasterFacility CheckMasterFacility(int code)
         {
             return _mediator.Send(new ValidateFacility(code)).Result;
         }

@@ -5,13 +5,13 @@ VisualStudioVersion = 15.0.27703.2026
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SharedKernel", "SharedKernel", "{80B80A93-0D42-4AFB-92F5-6345FA24B110}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DwapiCentral.SharedKernel", "DwapiCentral.SharedKernel\DwapiCentral.SharedKernel.csproj", "{1CECB8CA-6B01-47EF-BD21-1BC89E161407}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DwapiCentral.SharedKernel", "DwapiCentral.SharedKernel\DwapiCentral.SharedKernel.csproj", "{1CECB8CA-6B01-47EF-BD21-1BC89E161407}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Cbs", "Cbs", "{538F5F76-B7C0-48A0-8A33-8BB81A237D93}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DwapiCentral.Cbs.Core", "DwapiCentral.Cbs.Core\DwapiCentral.Cbs.Core.csproj", "{C5079A8C-64CA-4A34-90EC-4D45F77D5EC5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DwapiCentral.Cbs.Core", "DwapiCentral.Cbs.Core\DwapiCentral.Cbs.Core.csproj", "{C5079A8C-64CA-4A34-90EC-4D45F77D5EC5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DwapiCentral.Cbs.Infrastructure", "DwapiCentral.Cbs.Infrastructure\DwapiCentral.Cbs.Infrastructure.csproj", "{E6069F56-538D-433D-879D-FA0F46FFE809}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DwapiCentral.Cbs.Infrastructure", "DwapiCentral.Cbs.Infrastructure\DwapiCentral.Cbs.Infrastructure.csproj", "{E6069F56-538D-433D-879D-FA0F46FFE809}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Infrastructure", "Infrastructure", "{16F0C266-53CF-46FA-857E-76E25264898E}"
 EndProject
@@ -19,19 +19,19 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Core", "Core", "{59ACEB61-F
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Infrastructure", "Infrastructure", "{AD6B0CCD-C849-44EF-AC51-9C6FEDE6B62C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DwapiCentral.SharedKernel.Infrastructure", "DwapiCentral.SharedKernel.Infrastructure\DwapiCentral.SharedKernel.Infrastructure.csproj", "{5234DEDE-0CB9-4257-842D-D934737164AA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DwapiCentral.SharedKernel.Infrastructure", "DwapiCentral.SharedKernel.Infrastructure\DwapiCentral.SharedKernel.Infrastructure.csproj", "{5234DEDE-0CB9-4257-842D-D934737164AA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DwapiCentral.Cbs.Core.Tests", "DwapiCentral.Cbs.Core.Tests\DwapiCentral.Cbs.Core.Tests.csproj", "{3BE49F17-E7DB-40D9-862D-53C093F59A92}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DwapiCentral.Cbs.Core.Tests", "DwapiCentral.Cbs.Core.Tests\DwapiCentral.Cbs.Core.Tests.csproj", "{3BE49F17-E7DB-40D9-862D-53C093F59A92}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DwapiCentral.Cbs.Infrastructure.Tests", "DwapiCentral.Cbs.Infrastructure.Tests\DwapiCentral.Cbs.Infrastructure.Tests.csproj", "{EC559EC0-0660-4BC3-9F66-B3DCC97A4E44}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DwapiCentral.Cbs.Infrastructure.Tests", "DwapiCentral.Cbs.Infrastructure.Tests\DwapiCentral.Cbs.Infrastructure.Tests.csproj", "{EC559EC0-0660-4BC3-9F66-B3DCC97A4E44}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DwapiCentral.SharedKernel.Tests", "DwapiCentral.SharedKernel.Tests\DwapiCentral.SharedKernel.Tests.csproj", "{43552933-C2DF-4B3B-A797-147431634819}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DwapiCentral.SharedKernel.Tests", "DwapiCentral.SharedKernel.Tests\DwapiCentral.SharedKernel.Tests.csproj", "{43552933-C2DF-4B3B-A797-147431634819}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DwapiCentral.SharedKernel.Infrastructure.Tests", "DwapiCentral.SharedKernel.Infrastructure.Tests\DwapiCentral.SharedKernel.Infrastructure.Tests.csproj", "{9FF2BF59-FDA7-43DB-9F2D-C0A15CACB4E6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DwapiCentral.SharedKernel.Infrastructure.Tests", "DwapiCentral.SharedKernel.Infrastructure.Tests\DwapiCentral.SharedKernel.Infrastructure.Tests.csproj", "{9FF2BF59-FDA7-43DB-9F2D-C0A15CACB4E6}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Wapi", "Wapi", "{2C7629BE-DCBF-4266-82A7-4758602744A6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DwapiCentral", "DwapiCentral\DwapiCentral.csproj", "{8A9C0692-2393-4624-9254-9D9B577FD87A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DwapiCentral", "DwapiCentral\DwapiCentral.csproj", "{8A9C0692-2393-4624-9254-9D9B577FD87A}"
 EndProject
 Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{799D396A-BA2F-44EE-A12B-38417CE15672}"
 EndProject

@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using DwapiCentral.Cbs.Core.Interfaces;
 using DwapiCentral.Cbs.Core.Interfaces.Repository;
 using DwapiCentral.Cbs.Core.Model;
@@ -8,9 +10,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace DwapiCentral.Cbs.Infrastructure.Data.Repository
 {
-    public class FacilityRepository : BaseRepository<Facility, Guid>, IFacilityRepository
+    public class DocketRepository : BaseRepository<Docket, string>, IDocketRepository
     {
-        public FacilityRepository(CbsContext context) : base(context)
+        public DocketRepository(CbsContext context) : base(context)
         {
         }
     }

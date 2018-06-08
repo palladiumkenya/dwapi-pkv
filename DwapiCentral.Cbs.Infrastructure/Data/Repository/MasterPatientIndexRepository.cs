@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Linq;
+using System.Collections.Generic;
 using DwapiCentral.Cbs.Core.Interfaces;
 using DwapiCentral.Cbs.Core.Interfaces.Repository;
 using DwapiCentral.Cbs.Core.Model;
@@ -8,9 +8,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace DwapiCentral.Cbs.Infrastructure.Data.Repository
 {
-    public class FacilityRepository : BaseRepository<Facility, Guid>, IFacilityRepository
+    public class MasterPatientIndexRepository : BaseRepository<MasterPatientIndex,Guid>, IMasterPatientIndexRepository
     {
-        public FacilityRepository(CbsContext context) : base(context)
+        public MasterPatientIndexRepository(CbsContext context) : base(context)
         {
         }
     }

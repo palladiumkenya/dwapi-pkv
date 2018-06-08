@@ -3,7 +3,7 @@ using MediatR;
 
 namespace DwapiCentral.Cbs.Core.Command
 {
-    public class ValidateFacility: IRequest<string>
+    public class ValidateFacility: IRequest<MasterFacility>
     {
         public int SiteCode { get; }
 

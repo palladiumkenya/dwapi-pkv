@@ -19,6 +19,38 @@ namespace DwapiCentral.Cbs.Infrastructure.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+            modelBuilder.Entity("DwapiCentral.Cbs.Core.Model.Cargo", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Items");
+
+                    b.Property<Guid>("ManifestId");
+
+                    b.Property<int>("Type");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ManifestId");
+
+                    b.ToTable("Cargoes");
+                });
+
+            modelBuilder.Entity("DwapiCentral.Cbs.Core.Model.Docket", b =>
+                {
+                    b.Property<string>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Instance");
+
+                    b.Property<string>("Name");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Dockets");
+                });
+
             modelBuilder.Entity("DwapiCentral.Cbs.Core.Model.Facility", b =>
                 {
                     b.Property<Guid>("Id")
@@ -40,24 +72,26 @@ namespace DwapiCentral.Cbs.Infrastructure.Migrations
                     b.ToTable("Facilities");
                 });
 
-            modelBuilder.Entity("DwapiCentral.Cbs.Core.Model.FacilityManifest", b =>
+            modelBuilder.Entity("DwapiCentral.Cbs.Core.Model.Manifest", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<int>("AmountRecievied");
-
-                    b.Property<int>("AmountSent");
+                    b.Property<DateTime>("DateArrived");
 
                     b.Property<DateTime>("DateLogged");
 
                     b.Property<Guid>("FacilityId");
 
+                    b.Property<int>("Recieved");
+
+                    b.Property<int>("Sent");
+
                     b.HasKey("Id");
 
                     b.HasIndex("FacilityId");
 
-                    b.ToTable("FacilityManifests");
+                    b.ToTable("Manifests");
                 });
 
             modelBuilder.Entity("DwapiCentral.Cbs.Core.Model.MasterFacility", b =>
@@ -93,6 +127,32 @@ namespace DwapiCentral.Cbs.Infrastructure.Migrations
                     b.ToTable("MasterPatientIndices");
                 });
 
+            modelBuilder.Entity("DwapiCentral.Cbs.Core.Model.Subscriber", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("AuthCode");
+
+                    b.Property<string>("DocketId");
+
+                    b.Property<string>("Name");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("DocketId");
+
+                    b.ToTable("Subscribers");
+                });
+
+            modelBuilder.Entity("DwapiCentral.Cbs.Core.Model.Cargo", b =>
+                {
+                    b.HasOne("DwapiCentral.Cbs.Core.Model.Manifest")
+                        .WithMany("Cargoes")
+                        .HasForeignKey("ManifestId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
             modelBuilder.Entity("DwapiCentral.Cbs.Core.Model.Facility", b =>
                 {
                     b.HasOne("DwapiCentral.Cbs.Core.Model.MasterFacility")
@@ -100,7 +160,7 @@ namespace DwapiCentral.Cbs.Infrastructure.Migrations
                         .HasForeignKey("MasterFacilityId");
                 });
 
-            modelBuilder.Entity("DwapiCentral.Cbs.Core.Model.FacilityManifest", b =>
+            modelBuilder.Entity("DwapiCentral.Cbs.Core.Model.Manifest", b =>
                 {
                     b.HasOne("DwapiCentral.Cbs.Core.Model.Facility")
                         .WithMany("Manifests")
@@ -114,6 +174,13 @@ namespace DwapiCentral.Cbs.Infrastructure.Migrations
                         .WithMany("MasterPatientIndices")
                         .HasForeignKey("FacilityId")
                         .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("DwapiCentral.Cbs.Core.Model.Subscriber", b =>
+                {
+                    b.HasOne("DwapiCentral.Cbs.Core.Model.Docket")
+                        .WithMany("Subscribers")
+                        .HasForeignKey("DocketId");
                 });
 #pragma warning restore 612, 618
         }

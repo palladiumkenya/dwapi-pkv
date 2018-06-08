@@ -8,6 +8,19 @@ namespace DwapiCentral.Cbs.Infrastructure.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
+                name: "Dockets",
+                columns: table => new
+                {
+                    Id = table.Column<string>(nullable: false),
+                    Name = table.Column<string>(nullable: true),
+                    Instance = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Dockets", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "MasterFacilities",
                 columns: table => new
                 {
@@ -18,6 +31,26 @@ namespace DwapiCentral.Cbs.Infrastructure.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_MasterFacilities", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Subscribers",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(nullable: false),
+                    Name = table.Column<string>(nullable: true),
+                    AuthCode = table.Column<string>(nullable: true),
+                    DocketId = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Subscribers", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Subscribers_Dockets_DocketId",
+                        column: x => x.DocketId,
+                        principalTable: "Dockets",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -42,20 +75,21 @@ namespace DwapiCentral.Cbs.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "FacilityManifests",
+                name: "Manifests",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(nullable: false),
-                    AmountSent = table.Column<int>(nullable: false),
-                    AmountRecievied = table.Column<int>(nullable: false),
-                    FacilityId = table.Column<Guid>(nullable: false),
-                    DateLogged = table.Column<DateTime>(nullable: false)
+                    Sent = table.Column<int>(nullable: false),
+                    Recieved = table.Column<int>(nullable: false),
+                    DateLogged = table.Column<DateTime>(nullable: false),
+                    DateArrived = table.Column<DateTime>(nullable: false),
+                    FacilityId = table.Column<Guid>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_FacilityManifests", x => x.Id);
+                    table.PrimaryKey("PK_Manifests", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_FacilityManifests_Facilities_FacilityId",
+                        name: "FK_Manifests_Facilities_FacilityId",
                         column: x => x.FacilityId,
                         principalTable: "Facilities",
                         principalColumn: "Id",
@@ -82,29 +116,68 @@ namespace DwapiCentral.Cbs.Infrastructure.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "Cargoes",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(nullable: false),
+                    Type = table.Column<int>(nullable: false),
+                    Items = table.Column<string>(nullable: true),
+                    ManifestId = table.Column<Guid>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Cargoes", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Cargoes_Manifests_ManifestId",
+                        column: x => x.ManifestId,
+                        principalTable: "Manifests",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Cargoes_ManifestId",
+                table: "Cargoes",
+                column: "ManifestId");
+
             migrationBuilder.CreateIndex(
                 name: "IX_Facilities_MasterFacilityId",
                 table: "Facilities",
                 column: "MasterFacilityId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_FacilityManifests_FacilityId",
-                table: "FacilityManifests",
+                name: "IX_Manifests_FacilityId",
+                table: "Manifests",
                 column: "FacilityId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_MasterPatientIndices_FacilityId",
                 table: "MasterPatientIndices",
                 column: "FacilityId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Subscribers_DocketId",
+                table: "Subscribers",
+                column: "DocketId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "FacilityManifests");
+                name: "Cargoes");
 
             migrationBuilder.DropTable(
                 name: "MasterPatientIndices");
+
+            migrationBuilder.DropTable(
+                name: "Subscribers");
+
+            migrationBuilder.DropTable(
+                name: "Manifests");
+
+            migrationBuilder.DropTable(
+                name: "Dockets");
 
             migrationBuilder.DropTable(
                 name: "Facilities");

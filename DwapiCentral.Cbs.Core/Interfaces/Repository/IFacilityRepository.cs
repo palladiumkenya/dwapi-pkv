@@ -2,10 +2,9 @@
 using DwapiCentral.Cbs.Core.Model;
 using DwapiCentral.SharedKernel.Interfaces;
 
-namespace DwapiCentral.Cbs.Core.Interfaces
+namespace DwapiCentral.Cbs.Core.Interfaces.Repository
 {
     public interface IFacilityRepository : IRepository<Facility, Guid>
     {
-        bool IsEnrolled(int siteCode);
     }
 }

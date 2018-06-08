@@ -8,6 +8,7 @@ using DwapiCentral.Cbs.Core.Interfaces.Repository;
 using DwapiCentral.Cbs.Infrastructure.Data;
 using DwapiCentral.Cbs.Infrastructure.Data.Repository;
 using DwapiCentral.SharedKernel.Infrastructure.Data;
+using Hangfire;
 using MediatR;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Builder;
@@ -54,7 +55,15 @@ namespace DwapiCentral
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
             var connectionString = Configuration["ConnectionStrings:DwapiConnection"];
-            services.AddDbContext<CbsContext>(o => o.UseSqlServer(connectionString, x => x.MigrationsAssembly(typeof(CbsContext).GetTypeInfo().Assembly.GetName().Name)));
+            try
+            {
+                services.AddDbContext<CbsContext>(o => o.UseSqlServer(connectionString, x => x.MigrationsAssembly(typeof(CbsContext).GetTypeInfo().Assembly.GetName().Name)));
+                services.AddHangfire(o => o.UseSqlServerStorage(connectionString));
+            }
+            catch (Exception e)
+            {
+                Log.Error(e,"Startup error");
+            }
 
             services.AddScoped<IMasterFacilityRepository, MasterFacilityRepository>();
             
@@ -79,6 +88,19 @@ namespace DwapiCentral
             app.UseMvc();
 
             EnsureMigrationOfContext<CbsContext>();
+
+            #region HangFire
+            try
+            {
+                app.UseHangfireDashboard();
+                app.UseHangfireServer();
+            }
+            catch (Exception e)
+            {
+                Log.Fatal(e, "Hangfire is down !");
+            }
+            #endregion
+
 
             Log.Debug(@"initializing Database [Complete]");
             Log.Debug(

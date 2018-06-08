@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using DwapiCentral.Cbs.Core.Interfaces.Repository;
 using DwapiCentral.Cbs.Core.Model;
+using DwapiCentral.SharedKernel.Enums;
 using DwapiCentral.SharedKernel.Infrastructure.Data;
 
 namespace DwapiCentral.Cbs.Infrastructure.Data.Repository
@@ -12,6 +13,13 @@ namespace DwapiCentral.Cbs.Infrastructure.Data.Repository
     {
         public ManifestRepository(CbsContext context) : base(context)
         {
+        }
+
+        public async void Process()
+        {
+            var manifests =GetAll(x => x.Status == ManifestStatus.Staged).ToList();
+            if (manifests.Any())
+                await ClearFacility(manifests);
         }
 
         public Task<int> ClearFacility(IEnumerable<Manifest> manifests)

@@ -18,7 +18,8 @@ namespace DwapiCentral.Cbs.Infrastructure.Data.Repository
         public void ClearFacility(IEnumerable<Manifest> manifests)
         {
             var ids = string.Join(',', manifests.Select(x =>$"'{x.FacilityId}'"));
-            ExecSqlAsync($"DELETE FROM {nameof(CbsContext.MasterPatientIndices)} WHERE {nameof(MasterPatientIndex.FacilityId)} in ({ids})").Wait();
+            ExecSql(
+                $"DELETE FROM {nameof(CbsContext.MasterPatientIndices)} WHERE {nameof(MasterPatientIndex.FacilityId)} in ({ids})");
         }
     }
 }

@@ -36,6 +36,11 @@ namespace DwapiCentral.SharedKernel.Infrastructure.Data
             return DbSet.Where(predicate).AsNoTracking().FirstOrDefaultAsync();
         }
 
+        public IEnumerable<T> GetAll()
+        {
+            return DbSet.AsNoTracking();
+        }
+
         public virtual IEnumerable<T> GetAll(Expression<Func<T, bool>> predicate)
         {
             return DbSet.Where(predicate).AsNoTracking();
@@ -70,6 +75,15 @@ namespace DwapiCentral.SharedKernel.Infrastructure.Data
         public virtual Task<int> SaveAsync()
         {
             return Context.SaveChangesAsync();
+        }
+
+        public int ExecSql(string sql)
+        {
+            using (var cn = new SqlConnection(ConnectionString))
+            {
+                cn.Execute(sql);
+            }
+            return 1;
         }
 
         public virtual async Task<int> ExecSqlAsync(string sql)

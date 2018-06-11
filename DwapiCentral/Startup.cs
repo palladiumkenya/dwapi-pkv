@@ -5,6 +5,8 @@ using System.Reflection;
 using System.Threading.Tasks;
 using DwapiCentral.Cbs.Core.Interfaces;
 using DwapiCentral.Cbs.Core.Interfaces.Repository;
+using DwapiCentral.Cbs.Core.Interfaces.Service;
+using DwapiCentral.Cbs.Core.Service;
 using DwapiCentral.Cbs.Infrastructure.Data;
 using DwapiCentral.Cbs.Infrastructure.Data.Repository;
 using DwapiCentral.SharedKernel.Infrastructure.Data;
@@ -71,8 +73,9 @@ namespace DwapiCentral
             services.AddScoped<IFacilityRepository, FacilityRepository>();
             services.AddScoped<IManifestRepository, ManifestRepository>();
             services.AddScoped<IMasterPatientIndexRepository, MasterPatientIndexRepository>();
-            
 
+            services.AddScoped<IManifestService, ManifestService>();
+            services.AddScoped<IMpiService, MpiService>();
             var container = new Container();
             container.Populate(services);
             ServiceProvider = container.GetInstance<IServiceProvider>();

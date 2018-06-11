@@ -24,6 +24,21 @@ namespace DwapiCentral.SharedKernel.Tests.TestData
             return facilities;
         }
 
+        public static List<Facility> TestFacilities(int count = 2)
+        {
+            var facilities = Builder<Facility>.CreateListOfSize(count)
+                .Build()
+                .ToList();
+
+            int n = 0;
+            foreach (var facility in facilities)
+            {
+                n++;
+                facility.SiteCode = n;
+            }
+            return facilities;
+        }
+
         public static List<Facility> TestFacilityWithPatients(int count = 2, int childcount = 3)
         {
             var facilities = Builder<Facility>.CreateListOfSize(count)
@@ -42,6 +57,15 @@ namespace DwapiCentral.SharedKernel.Tests.TestData
                     .ToList();
             }
             return facilities;
+        }
+
+        public static List<MasterPatientIndex> TestMasterPatientIndices(int siteCode, int count = 5)
+        {
+            var patientIndices = Builder<MasterPatientIndex>.CreateListOfSize(count)
+                .All().With(x=>x.SiteCode=siteCode)
+                .Build()
+                .ToList();
+            return patientIndices;
         }
 
         public static List<Manifest> TestManifests(int count = 2, int childcount = 3)

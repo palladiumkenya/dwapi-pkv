@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using DwapiCentral.Cbs.Core.Command;
 using DwapiCentral.Cbs.Core.Interfaces.Repository;
+using DwapiCentral.Cbs.Core.Interfaces.Service;
 using Hangfire;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -16,14 +17,16 @@ namespace DwapiCentral.Controllers
     public class CbsController : ControllerBase
     {
         private readonly IMediator _mediator;
-        private readonly IManifestRepository _manifestRepository;
+        private readonly IManifestService _manifestService;
+        private readonly IMpiService _mpiService;
         private readonly IMasterPatientIndexRepository _masterPatientIndexRepository;
 
-        public CbsController(IMediator mediator, IManifestRepository manifestRepository, IMasterPatientIndexRepository masterPatientIndexRepository)
+        public CbsController(IMediator mediator, IManifestRepository manifestRepository, IMasterPatientIndexRepository masterPatientIndexRepository, IManifestService manifestService, IMpiService mpiService)
         {
             _mediator = mediator;
-            _manifestRepository = manifestRepository;
             _masterPatientIndexRepository = masterPatientIndexRepository;
+            _manifestService = manifestService;
+            _mpiService = mpiService;
         }
 
         // POST api/cbs/verify
@@ -47,7 +50,7 @@ namespace DwapiCentral.Controllers
 
         // POST api/cbs/Manifest
         [HttpPost("Manifest")]
-        public async Task<IActionResult> Manifest([FromBody] SaveManifest manifest)
+        public async Task<IActionResult> ProcessManifest([FromBody] SaveManifest manifest)
         {
             if (null == manifest)
                 return BadRequest();
@@ -55,7 +58,7 @@ namespace DwapiCentral.Controllers
             try
             {
                 var faciliyKey = await _mediator.Send(manifest, HttpContext.RequestAborted);
-                BackgroundJob.Enqueue(() => _mediator.Send(new ProcessManifest(), HttpContext.RequestAborted));
+                BackgroundJob.Enqueue(() => _manifestService.Process());
                 return Ok(new
                 {
                     FacilityKey = faciliyKey
@@ -68,18 +71,20 @@ namespace DwapiCentral.Controllers
             }
         }
 
-        // POST api/cbs/Manifest
+        // POST api/cbs/Mpi
         [HttpPost("Mpi")]
-        public async Task<IActionResult> Mpi([FromBody] SaveMpi mpi)
+        public IActionResult ProcessMpi([FromBody] SaveMpi mpi)
         {
             if (null == mpi)
                 return BadRequest();
 
             try
             {
-                var faciliyKey = await _mediator.Send(new ValidateFacilityKey(mpi.FacilityId), HttpContext.RequestAborted);
-                BackgroundJob.Enqueue(() => _masterPatientIndexRepository.Process(mpi.FacilityId,mpi.MasterPatientIndices));
-                return Ok(faciliyKey);
+                var id=  BackgroundJob.Enqueue(() => _mpiService.Process(mpi.MasterPatientIndices));
+                return Ok(new
+                {
+                    BatchKey = id
+                });
             }
             catch (Exception e)
             {

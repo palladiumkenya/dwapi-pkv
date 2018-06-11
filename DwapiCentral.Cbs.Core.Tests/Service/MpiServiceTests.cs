@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data.SqlClient;
 using System.Linq;
+using DwapiCentral.Cbs.Core.CommandHandler;
 using DwapiCentral.Cbs.Core.Interfaces.Repository;
+using DwapiCentral.Cbs.Core.Interfaces.Service;
 using DwapiCentral.Cbs.Core.Model;
+using DwapiCentral.Cbs.Core.Service;
 using DwapiCentral.Cbs.Infrastructure.Data;
 using DwapiCentral.Cbs.Infrastructure.Data.Repository;
-using DwapiCentral.SharedKernel.Exceptions;
 using DwapiCentral.SharedKernel.Tests.TestData;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -14,17 +15,14 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using NUnit.Framework;
 
-namespace DwapiCentral.Cbs.Infrastructure.Tests.Data.Repository
+namespace DwapiCentral.Cbs.Core.Tests.Service
 {
-    [TestFixture]
-    [Category("UsesDb")]
-    public class ManifestRepositoryTests
+    public class MpiServiceTests
     {
         private ServiceProvider _serviceProvider;
+        private List<MasterPatientIndex> _patientIndices;
         private CbsContext _context;
-        private List<Facility> _facilities;
-        private IManifestRepository _manifestRepository;
-        private List<Manifest> _manifests;
+        private IMpiService _mpiService;
 
         [OneTimeSetUp]
         public void Init()
@@ -34,40 +32,40 @@ namespace DwapiCentral.Cbs.Infrastructure.Tests.Data.Repository
                 .Build();
             var connectionString = config["ConnectionStrings:DwapiConnectionDev"];
 
+
             _serviceProvider = new ServiceCollection()
                 .AddDbContext<CbsContext>(o => o.UseSqlServer(connectionString))
-                .AddTransient<IManifestRepository, ManifestRepository>()
+                .AddScoped<IFacilityRepository, FacilityRepository>()
+                .AddScoped<IMasterPatientIndexRepository, MasterPatientIndexRepository>()
+                .AddScoped<IMpiService, MpiService>()
+                .AddMediatR(typeof(ValidateFacilityHandler))
                 .BuildServiceProvider();
 
-            _facilities = TestDataFactory.TestFacilityWithPatients(2);
-            _manifests = TestDataFactory.TestManifests(2);
-
-            _manifests[0].FacilityId = _facilities[0].Id;
-            _manifests[1].FacilityId = _facilities[1].Id;
 
             _context = _serviceProvider.GetService<CbsContext>();
             _context.Database.EnsureDeleted();
-            _context.Database.EnsureCreated();
+            _context.Database.Migrate();
             _context.MasterFacilities.AddRange(TestDataFactory.TestMasterFacilities());
-            _context.Facilities.AddRange(_facilities);
-            _context.Manifests.AddRange(_manifests);
+            _context.Facilities.AddRange(TestDataFactory.TestFacilities());
             _context.SaveChanges();
+
+            _patientIndices = TestDataFactory.TestMasterPatientIndices(1);
         }
 
         [SetUp]
-        public void Setup()
+        public void SetUp()
         {
-            _manifestRepository = _serviceProvider.GetService<IManifestRepository>();
+            _mpiService = _serviceProvider.GetService<IMpiService>();
         }
-
         [Test]
-        public void should_Clear_With_Manifest_Facility()
+        public void should_Process()
         {
-            var patients = _context.MasterPatientIndices;
-            Assert.True(patients.Any());
-           _manifestRepository.ClearFacility(_manifests);
-            var nopatients = _context.MasterPatientIndices;
-            Assert.False(nopatients.Any());
+            var patients = _context.MasterPatientIndices.ToList();
+            Assert.False(patients.Any());
+
+            _mpiService.Process(_patientIndices);
+            var savedPatients = _context.MasterPatientIndices.ToList();
+            Assert.True(savedPatients.Any());
         }
     }
 }

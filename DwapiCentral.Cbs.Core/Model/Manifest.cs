@@ -8,6 +8,8 @@ namespace DwapiCentral.Cbs.Core.Model
 {
     public class Manifest : Entity<Guid>
     {
+        public int SiteCode { get; set; }
+        public string Name { get; set; }
         public int Sent { get; set; }
         public int Recieved { get; set; }
         public DateTime DateLogged { get; set; }

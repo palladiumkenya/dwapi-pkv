@@ -10,7 +10,7 @@ namespace DwapiCentral.Cbs.Core.Model
     {
         public string Name { get; set; }
         public string Instance { get; set; }
-        public ICollection<Subscriber> Subscribers { get; set; }
+        public ICollection<Subscriber> Subscribers { get; set; }=new List<Subscriber>();
 
         public Docket()
         {

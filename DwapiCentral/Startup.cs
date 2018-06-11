@@ -65,8 +65,14 @@ namespace DwapiCentral
                 Log.Error(e,"Startup error");
             }
 
+            services.AddScoped<IDocketRepository, DocketRepository>();
             services.AddScoped<IMasterFacilityRepository, MasterFacilityRepository>();
+
+            services.AddScoped<IFacilityRepository, FacilityRepository>();
+            services.AddScoped<IManifestRepository, ManifestRepository>();
+            services.AddScoped<IMasterPatientIndexRepository, MasterPatientIndexRepository>();
             
+
             var container = new Container();
             container.Populate(services);
             ServiceProvider = container.GetInstance<IServiceProvider>();

@@ -26,22 +26,22 @@ namespace DwapiCentral.SharedKernel.Infrastructure.Data
 
         public string ConnectionString => GetDbConnection().ConnectionString;
 
-        public Task<T> GetAsync(TId id)
+        public virtual Task<T> GetAsync(TId id)
         {
             return DbSet.FindAsync(id);
         }
 
-        public Task<T> GetAsync(Expression<Func<T, bool>> predicate)
+        public virtual Task<T> GetAsync(Expression<Func<T, bool>> predicate)
         {
             return DbSet.Where(predicate).AsNoTracking().FirstOrDefaultAsync();
         }
 
-        public IEnumerable<T> GetAll(Expression<Func<T, bool>> predicate)
+        public virtual IEnumerable<T> GetAll(Expression<Func<T, bool>> predicate)
         {
             return DbSet.Where(predicate).AsNoTracking();
         }
 
-        public void Create(T entity)
+        public virtual void Create(T entity)
         {
             DbSet.Add(entity);
         }

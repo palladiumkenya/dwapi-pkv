@@ -5,12 +5,13 @@ using DwapiCentral.Cbs.Core.Command;
 using DwapiCentral.Cbs.Core.Interfaces;
 using DwapiCentral.Cbs.Core.Interfaces.Repository;
 using DwapiCentral.SharedKernel.Exceptions;
+using DwapiCentral.SharedKernel.Model;
 using DwapiCentral.SharedKernel.Utils;
 using MediatR;
 
 namespace DwapiCentral.Cbs.Core.CommandHandler
 {
-    public class VerifySubscriberHandler : IRequestHandler<VerifySubscriber, string>
+    public class VerifySubscriberHandler : IRequestHandler<VerifySubscriber, VerificationResponse>
     {
         private readonly IDocketRepository _repository;
 
@@ -20,20 +21,20 @@ namespace DwapiCentral.Cbs.Core.CommandHandler
         }
 
 
-        public async Task<string> Handle(VerifySubscriber request, CancellationToken cancellationToken)
+        public async Task<VerificationResponse> Handle(VerifySubscriber request, CancellationToken cancellationToken)
         {
-            var docket = await _repository.GetAsync(request.Docket);
+            var docket = await _repository.FindAsync(request.DocketId);
 
             if (null == docket)
-                throw new DocketNotFoundException(request.Docket);
+                throw new DocketNotFoundException(request.DocketId);
 
-            if (!docket.SubscriberExists(request.Name))
-                throw new SubscriberNotFoundException(request.Name);
+            if (!docket.SubscriberExists(request.SubscriberId))
+                throw new SubscriberNotFoundException(request.SubscriberId);
 
-            if (docket.SubscriberAuthorized(request.Name, request.AuthCode))
-                    return docket.Name;
+            if (docket.SubscriberAuthorized(request.SubscriberId, request.AuthToken))
+                    return new VerificationResponse(docket.Name,true);
 
-            throw new SubscriberNotAuthorizedException(request.Name);
+            throw new SubscriberNotAuthorizedException(request.SubscriberId);
         }
     }
 }

@@ -9,6 +9,7 @@ using DwapiCentral.Cbs.Core.Model;
 using DwapiCentral.Cbs.Infrastructure.Data;
 using DwapiCentral.Cbs.Infrastructure.Data.Repository;
 using DwapiCentral.SharedKernel.Exceptions;
+using DwapiCentral.SharedKernel.Model;
 using DwapiCentral.SharedKernel.Tests.TestData;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -74,11 +75,12 @@ namespace DwapiCentral.Cbs.Core.Tests.CommandHandler
         public void should_return_Docket_Validated_Subscriber()
         {
             var subscriber = CheckSubscriber(_dockets.First().Subscribers.First());
-            Assert.False(string.IsNullOrWhiteSpace(subscriber));
-            Console.WriteLine(subscriber);
+            Assert.NotNull(subscriber);
+            Assert.True(subscriber.Verified);
+            Console.WriteLine(subscriber.RegistryName);
         }
 
-        private string CheckSubscriber(Subscriber subscriber)
+        private VerificationResponse CheckSubscriber(Subscriber subscriber)
         {
             return _mediator.Send(new VerifySubscriber(subscriber.DocketId,subscriber.Name,subscriber.AuthCode)).Result;
         }

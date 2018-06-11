@@ -83,9 +83,17 @@ namespace DwapiCentral.Cbs.Infrastructure.Migrations
 
                     b.Property<Guid>("FacilityId");
 
+                    b.Property<string>("Name");
+
                     b.Property<int>("Recieved");
 
                     b.Property<int>("Sent");
+
+                    b.Property<int>("SiteCode");
+
+                    b.Property<int>("Status");
+
+                    b.Property<DateTime>("StatusDate");
 
                     b.HasKey("Id");
 

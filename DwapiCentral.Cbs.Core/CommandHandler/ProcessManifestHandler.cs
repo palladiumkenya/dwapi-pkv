@@ -11,7 +11,7 @@ using MediatR;
 
 namespace DwapiCentral.Cbs.Core.CommandHandler
 {
-    public class ProcessManifestHandler : IRequestHandler<ProcessManifest,bool>
+    public class ProcessManifestHandler : IRequestHandler<ProcessManifest,Unit>
     {
         private readonly IManifestRepository _repository;
 
@@ -20,14 +20,13 @@ namespace DwapiCentral.Cbs.Core.CommandHandler
             _repository = repository;
         }
 
-        public async Task<bool> Handle(ProcessManifest request, CancellationToken cancellationToken)
+        public Task<Unit> Handle(ProcessManifest request, CancellationToken cancellationToken)
         {
 
             var manifests = _repository.GetAll(x => x.Status == ManifestStatus.Staged).ToList();
-            if(manifests.Any())
-                await  _repository.ClearFacility(manifests);
-
-            return true;
+            if (manifests.Any())
+                _repository.ClearFacility(manifests);
+            return Task.CompletedTask;
         }
     }
 }

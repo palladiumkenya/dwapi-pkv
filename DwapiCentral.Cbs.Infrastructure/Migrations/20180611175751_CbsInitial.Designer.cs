@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DwapiCentral.Cbs.Infrastructure.Migrations
 {
     [DbContext(typeof(CbsContext))]
-    [Migration("20180608105450_CbsInitial")]
+    [Migration("20180611175751_CbsInitial")]
     partial class CbsInitial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -85,9 +85,17 @@ namespace DwapiCentral.Cbs.Infrastructure.Migrations
 
                     b.Property<Guid>("FacilityId");
 
+                    b.Property<string>("Name");
+
                     b.Property<int>("Recieved");
 
                     b.Property<int>("Sent");
+
+                    b.Property<int>("SiteCode");
+
+                    b.Property<int>("Status");
+
+                    b.Property<DateTime>("StatusDate");
 
                     b.HasKey("Id");
 

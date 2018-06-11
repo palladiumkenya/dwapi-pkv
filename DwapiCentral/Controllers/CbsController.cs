@@ -55,8 +55,11 @@ namespace DwapiCentral.Controllers
             try
             {
                 var faciliyKey = await _mediator.Send(manifest, HttpContext.RequestAborted);
-                BackgroundJob.Enqueue(() => _manifestRepository.Process());
-                return Ok(faciliyKey);
+                BackgroundJob.Enqueue(() => _mediator.Send(new ProcessManifest(), HttpContext.RequestAborted));
+                return Ok(new
+                {
+                    FacilityKey = faciliyKey
+                });
             }
             catch (Exception e)
             {

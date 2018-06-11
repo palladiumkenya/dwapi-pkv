@@ -79,10 +79,14 @@ namespace DwapiCentral.Cbs.Infrastructure.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(nullable: false),
+                    SiteCode = table.Column<int>(nullable: false),
+                    Name = table.Column<string>(nullable: true),
                     Sent = table.Column<int>(nullable: false),
                     Recieved = table.Column<int>(nullable: false),
                     DateLogged = table.Column<DateTime>(nullable: false),
                     DateArrived = table.Column<DateTime>(nullable: false),
+                    Status = table.Column<int>(nullable: false),
+                    StatusDate = table.Column<DateTime>(nullable: false),
                     FacilityId = table.Column<Guid>(nullable: false)
                 },
                 constraints: table =>

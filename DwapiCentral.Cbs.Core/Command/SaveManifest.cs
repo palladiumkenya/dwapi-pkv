@@ -6,7 +6,11 @@ namespace DwapiCentral.Cbs.Core.Command
 {
     public class SaveManifest : IRequest<Guid>
     {
-        public Manifest Manifest { get; }
+        public Manifest Manifest { get; set; }
+
+        public SaveManifest()
+        {
+        }
 
         public SaveManifest(Manifest manifest)
         {

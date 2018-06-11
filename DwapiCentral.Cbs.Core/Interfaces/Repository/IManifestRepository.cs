@@ -8,7 +8,6 @@ namespace DwapiCentral.Cbs.Core.Interfaces.Repository
 {
     public interface IManifestRepository : IRepository<Manifest, Guid>
     {
-        void Process();
-        Task<int> ClearFacility(IEnumerable<Manifest> manifests);
+        void ClearFacility(IEnumerable<Manifest> manifests);
     }
 }

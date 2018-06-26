@@ -11,6 +11,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="AutoMapper.Data" Version="1.0.1" />
     <PackageReference Include="Hangfire.AspNetCore" Version="1.6.19" />
     <PackageReference Include="HangFire.SqlServer" Version="1.6.19" />
     <PackageReference Include="MediatR" Version="5.0.1" />

@@ -20,6 +20,18 @@ namespace DwapiCentral.Cbs.Infrastructure.Data.Repository
             var ids = string.Join(',', manifests.Select(x =>$"'{x.FacilityId}'"));
             ExecSql(
                 $"DELETE FROM {nameof(CbsContext.MasterPatientIndices)} WHERE {nameof(MasterPatientIndex.FacilityId)} in ({ids})");
+
+
+            var mids = string.Join(',', manifests.Select(x => $"'{x.Id}'"));
+            ExecSql(
+                $@"
+                    UPDATE 
+                        {nameof(CbsContext.Manifests)} 
+                    SET 
+                        {nameof(Manifest.Status)}={(int)ManifestStatus.Processed},
+                        {nameof(Manifest.StatusDate)}=GETDATE()
+                    WHERE 
+                        {nameof(Manifest.Id)} in ({mids})");
         }
     }
 }

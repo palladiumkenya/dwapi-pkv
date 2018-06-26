@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using DwapiCentral.Cbs.Core.Model;
 using DwapiCentral.SharedKernel.Enums;
@@ -35,6 +36,7 @@ namespace DwapiCentral.SharedKernel.Tests.TestData
             {
                 n++;
                 facility.SiteCode = n;
+                facility.MasterFacilityId = n;
             }
             return facilities;
         }
@@ -59,10 +61,12 @@ namespace DwapiCentral.SharedKernel.Tests.TestData
             return facilities;
         }
 
-        public static List<MasterPatientIndex> TestMasterPatientIndices(int siteCode, int count = 5)
+        public static List<MasterPatientIndex> TestMasterPatientIndices(int siteCode,Guid facilityId, int count = 5)
         {
             var patientIndices = Builder<MasterPatientIndex>.CreateListOfSize(count)
                 .All().With(x=>x.SiteCode=siteCode)
+                .With(x => x.FacilityId = facilityId)
+                .With(x=>x.RowId=0)
                 .Build()
                 .ToList();
             return patientIndices;

@@ -3,9 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
+using AutoMapper;
+using AutoMapper.Data;
 using DwapiCentral.Cbs.Core.Interfaces;
 using DwapiCentral.Cbs.Core.Interfaces.Repository;
 using DwapiCentral.Cbs.Core.Interfaces.Service;
+using DwapiCentral.Cbs.Core.Profiles;
 using DwapiCentral.Cbs.Core.Service;
 using DwapiCentral.Cbs.Infrastructure.Data;
 using DwapiCentral.Cbs.Infrastructure.Data.Repository;
@@ -24,6 +27,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Serilog;
 using StructureMap;
+using IConfiguration = Microsoft.Extensions.Configuration.IConfiguration;
 
 namespace DwapiCentral
 {
@@ -97,6 +101,12 @@ namespace DwapiCentral
             app.UseMvc();
 
             EnsureMigrationOfContext<CbsContext>();
+            Mapper.Initialize(cfg =>
+                {
+                    cfg.AddDataReaderMapping();
+                    cfg.AddProfile<MpiSearchProfile>();
+                }
+            );
 
             #region HangFire
             try

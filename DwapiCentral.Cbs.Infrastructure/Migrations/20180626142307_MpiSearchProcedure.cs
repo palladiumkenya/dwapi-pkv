@@ -34,7 +34,7 @@ DECLARE @dmLName varchar (50), @sxFname varchar(50), @dmMiddleNameLname varchar(
 DECLARE @Results TABLE 
 (
 
-SiteCode VARCHAR(20),
+MflCode VARCHAR(20),
 RegisteredFacility VARCHAR(50), 
 FirstName VARCHAR(50), 
 MiddleName VARCHAR (50), 

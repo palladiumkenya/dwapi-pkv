@@ -33,8 +33,8 @@ namespace DwapiCentral.Cbs.Infrastructure.Data.Repository
 
         public List<MpiSearchResultDto> MpiSearch(SearchMpi parameters)
         {
-            string sex = "Male";
-            if (parameters.Gender == Gender.Female) sex = "Female";
+            string sex = "M";
+            if (parameters.Gender == Gender.Female) sex = "F";
             var result = new List<MpiSearchResultDto>();
             SqlConnection connection = new SqlConnection(ConnectionString);
             SqlCommand cmd = new SqlCommand();

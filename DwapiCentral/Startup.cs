@@ -27,6 +27,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Serilog;
 using StructureMap;
+using Z.Dapper.Plus;
 using IConfiguration = Microsoft.Extensions.Configuration.IConfiguration;
 
 namespace DwapiCentral
@@ -120,6 +121,19 @@ namespace DwapiCentral
             }
             #endregion
 
+            try
+            {
+                DapperPlusManager.AddLicense("1755;701-ThePalladiumGroup", "9005d618-3965-8877-97a5-7a27cbb21c8f");
+                if (!Z.Dapper.Plus.DapperPlusManager.ValidateLicense(out var licenseErrorMessage))
+                {
+                    throw new Exception(licenseErrorMessage);
+                }
+            }
+            catch (Exception e)
+            {
+                Log.Debug($"{e}");
+                throw;
+            }
 
             Log.Debug(@"initializing Database [Complete]");
             Log.Debug(
@@ -147,7 +161,7 @@ namespace DwapiCentral
             try
             {
                 context.Database.Migrate();
-                context.EnsureSeeded();
+                //context.EnsureSeeded();
                 Log.Debug($"initializing Database context: {contextName} [OK]");
             }
             catch (Exception e)

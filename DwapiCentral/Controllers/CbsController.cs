@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using DwapiCentral.Cbs.Core.Command;
 using DwapiCentral.Cbs.Core.Interfaces.Repository;
 using DwapiCentral.Cbs.Core.Interfaces.Service;
+using DwapiCentral.SharedKernel.DTOs;
 using Hangfire;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -89,6 +90,24 @@ namespace DwapiCentral.Controllers
             catch (Exception e)
             {
                 Log.Error(e, "manifest error");
+                return StatusCode(500, e.Message);
+            }
+        }
+
+        // POST api/cbs/Manifest
+        [HttpPost("mpiSearch")]
+        public async Task<IActionResult> SearchMpi([FromBody] SearchMpi search)
+        {
+            if (null == search)
+                return BadRequest();
+            try
+            {
+                var results = await _mediator.Send<List<MpiSearchResultDto>>(search, HttpContext.RequestAborted);
+                return Ok(results);
+            }
+            catch (Exception e)
+            {
+                Log.Error(e, "search error");
                 return StatusCode(500, e.Message);
             }
         }

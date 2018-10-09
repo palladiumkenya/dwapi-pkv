@@ -3,9 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
+using AutoMapper;
+using AutoMapper.Data;
 using DwapiCentral.Cbs.Core.Interfaces;
 using DwapiCentral.Cbs.Core.Interfaces.Repository;
 using DwapiCentral.Cbs.Core.Interfaces.Service;
+using DwapiCentral.Cbs.Core.Profiles;
 using DwapiCentral.Cbs.Core.Service;
 using DwapiCentral.Cbs.Infrastructure.Data;
 using DwapiCentral.Cbs.Infrastructure.Data.Repository;
@@ -24,6 +27,8 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Serilog;
 using StructureMap;
+using Z.Dapper.Plus;
+using IConfiguration = Microsoft.Extensions.Configuration.IConfiguration;
 
 namespace DwapiCentral
 {
@@ -97,6 +102,12 @@ namespace DwapiCentral
             app.UseMvc();
 
             EnsureMigrationOfContext<CbsContext>();
+            Mapper.Initialize(cfg =>
+                {
+                    cfg.AddDataReaderMapping();
+                    cfg.AddProfile<MpiSearchProfile>();
+                }
+            );
 
             #region HangFire
             try
@@ -110,6 +121,19 @@ namespace DwapiCentral
             }
             #endregion
 
+            try
+            {
+                DapperPlusManager.AddLicense("1755;701-ThePalladiumGroup", "9005d618-3965-8877-97a5-7a27cbb21c8f");
+                if (!Z.Dapper.Plus.DapperPlusManager.ValidateLicense(out var licenseErrorMessage))
+                {
+                    throw new Exception(licenseErrorMessage);
+                }
+            }
+            catch (Exception e)
+            {
+                Log.Debug($"{e}");
+                throw;
+            }
 
             Log.Debug(@"initializing Database [Complete]");
             Log.Debug(
@@ -137,7 +161,7 @@ namespace DwapiCentral
             try
             {
                 context.Database.Migrate();
-                context.EnsureSeeded();
+                //context.EnsureSeeded();
                 Log.Debug($"initializing Database context: {contextName} [OK]");
             }
             catch (Exception e)

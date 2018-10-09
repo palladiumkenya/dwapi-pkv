@@ -29,6 +29,7 @@ namespace DwapiCentral.Cbs.Core.Service
 
             var batch = new List<MasterPatientIndex>();
             int count = 0;
+
             foreach (var masterPatientIndex in masterPatientIndices)
             {
                 try
@@ -38,9 +39,9 @@ namespace DwapiCentral.Cbs.Core.Service
                 }
                 catch (Exception e)
                 {
-                   Log.Error(e,$"Facility Id missing {masterPatientIndex.SiteCode}");
+                    Log.Error(e, $"Facility Id missing {masterPatientIndex.SiteCode}");
                 }
-               
+
 
                 if (count == 1000)
                 {
@@ -53,6 +54,8 @@ namespace DwapiCentral.Cbs.Core.Service
 
             if (batch.Any())
                 _manifestRepository.CreateBulk(batch);
+
+
 
         }
 

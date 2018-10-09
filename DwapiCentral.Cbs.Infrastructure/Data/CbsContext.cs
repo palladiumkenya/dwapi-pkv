@@ -30,6 +30,11 @@ namespace DwapiCentral.Cbs.Infrastructure.Data
         {
             base.OnModelCreating(modelBuilder);
 
+            modelBuilder
+                .Entity<MasterPatientIndex>()
+                .Property(u => u.RowId)
+                .UseSqlServerIdentityColumn();
+
             DapperPlusManager.Entity<Docket>().Key(x => x.Id).Table($"{nameof(CbsContext.Dockets)}");
             DapperPlusManager.Entity<Subscriber>().Key(x => x.Id).Table($"{nameof(CbsContext.Subscribers)}");
 

@@ -9,6 +9,7 @@ using DwapiCentral.Cbs.Core.Model;
 using DwapiCentral.Cbs.Core.Service;
 using DwapiCentral.Cbs.Infrastructure.Data;
 using DwapiCentral.Cbs.Infrastructure.Data.Repository;
+using DwapiCentral.SharedKernel.Custom;
 using DwapiCentral.SharedKernel.Tests.TestData;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -18,13 +19,10 @@ using NUnit.Framework;
 
 namespace DwapiCentral.Cbs.Core.Tests.Service
 {
-    public class MpiServiceTests
+    public class ManifestServiceTest
     {
         private ServiceProvider _serviceProvider;
-        private List<MasterPatientIndex> _patientIndices;
-        private List<MasterPatientIndex> _patientIndicesSiteB;
         private CbsContext _context;
-        private IMpiService _mpiService;
         private IManifestService _manifestService;
         private IMediator _mediator;
 
@@ -43,7 +41,6 @@ namespace DwapiCentral.Cbs.Core.Tests.Service
                 .AddScoped<IMasterFacilityRepository, MasterFacilityRepository>()
                 .AddScoped<IMasterPatientIndexRepository, MasterPatientIndexRepository>()
                 .AddScoped<IManifestRepository, ManifestRepository>()
-                .AddScoped<IMpiService, MpiService>()
                 .AddScoped<IManifestService, ManifestService>()
                 .AddMediatR(typeof(ValidateFacilityHandler))
                 .BuildServiceProvider();
@@ -56,8 +53,11 @@ namespace DwapiCentral.Cbs.Core.Tests.Service
             var facilities = TestDataFactory.TestFacilities();
             _context.Facilities.AddRange(facilities);
             _context.SaveChanges();
-            _patientIndices = TestDataFactory.TestMasterPatientIndices(1, facilities.First(x=>x.SiteCode==1).Id);
-            _patientIndicesSiteB = TestDataFactory.TestMasterPatientIndices(2, facilities.First(x => x.SiteCode == 2).Id);
+            _context.MasterPatientIndices.AddRange(TestDataFactory.TestMasterPatientIndices(1, facilities.First(x => x.SiteCode == 1).Id));
+            _context.MasterPatientIndices.AddRange(TestDataFactory.TestMasterPatientIndices(2, facilities.First(x => x.SiteCode == 2).Id));
+            _context.SaveChanges();
+
+            //1, 
         }
 
         [SetUp]
@@ -65,39 +65,23 @@ namespace DwapiCentral.Cbs.Core.Tests.Service
         {
             _manifestService = _serviceProvider.GetService<IManifestService>();
             _mediator = _serviceProvider.GetService<IMediator>();
-            _mpiService = _serviceProvider.GetService<IMpiService>();
-            
-        }
-        [Test]
-        public void should_Process()
-        {
-            var patients = _context.MasterPatientIndices.ToList();
-            Assert.False(patients.Any());
-
-            _mpiService.Process(_patientIndices);
-            var savedPatients = _context.MasterPatientIndices.ToList();
-            Assert.True(savedPatients.Any());
         }
 
         [Test]
-        public void should_Process_After_Manifest()
+        public void should_Clear_By_Site()
         {
-            var manifests = TestDataFactory.TestManifests();
-            manifests[0].SiteCode = 1;
-            manifests[1].SiteCode = 2;
-            var patients = _context.MasterPatientIndices.ToList();
-            Assert.False(patients.Any());
+            var sitePatients = _context.MasterPatientIndices.ToList();
+            Assert.True(sitePatients.Any(x=>x.SiteCode==1));
+            Assert.True(sitePatients.Any(x => x.SiteCode == 2));
 
-            var id = _mediator.Send(new SaveManifest(manifests[0])).Result;
+            var manifests = TestDataFactory.TestManifests(1);
+            manifests.ForEach(x => x.SiteCode = 1);
+            var id=_mediator.Send(new SaveManifest(manifests.First())).Result;
             _manifestService.Process();
-            _mpiService.Process(_patientIndices);
-            Assert.True(_context.MasterPatientIndices.Any(x=>x.SiteCode==1));
 
-            var id2 = _mediator.Send(new SaveManifest(manifests[1])).Result;
-            _manifestService.Process();
-            _mpiService.Process(_patientIndicesSiteB);
-            Assert.True(_context.MasterPatientIndices.Any(x => x.SiteCode == 1));
-            Assert.True(_context.MasterPatientIndices.Any(x => x.SiteCode == 2));
+            var remainingPatients = _context.MasterPatientIndices.ToList();
+            Assert.False(remainingPatients.Any(x => x.SiteCode == 1));
+            Assert.True(remainingPatients.Any(x => x.SiteCode == 2));
         }
     }
 }

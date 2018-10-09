@@ -18,7 +18,9 @@ namespace DwapiCentral.Cbs.Core.Service
         {
             var manifests = _manifestRepository.GetAll(x => x.Status == ManifestStatus.Staged).ToList();
             if (manifests.Any())
+            {
                 _manifestRepository.ClearFacility(manifests);
+            }
         }
     }
 }

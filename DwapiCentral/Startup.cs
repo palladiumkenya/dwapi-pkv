@@ -95,10 +95,10 @@ namespace DwapiCentral
             }
             else
             {
-               // app.UseHsts();
+               app.UseHsts();
             }
 
-            // app.UseHttpsRedirection();
+            app.UseHttpsRedirection();
             app.UseMvc();
 
             EnsureMigrationOfContext<CbsContext>();
@@ -161,7 +161,7 @@ namespace DwapiCentral
             try
             {
                 context.Database.Migrate();
-                //context.EnsureSeeded();
+                context.EnsureSeeded();
                 Log.Debug($"initializing Database context: {contextName} [OK]");
             }
             catch (Exception e)

@@ -21,7 +21,7 @@ namespace DwapiCentral.Cbs.Infrastructure.Data
         public DbSet<Manifest> Manifests { get; set; }
         public DbSet<Cargo> Cargoes { get; set; }
         public DbSet<MasterPatientIndex> MasterPatientIndices { get; set; }
-        
+
         public CbsContext(DbContextOptions<CbsContext> options) : base(options)
         {
         }
@@ -60,7 +60,7 @@ namespace DwapiCentral.Cbs.Infrastructure.Data
 
             SeederConfiguration.ResetConfiguration(csvConfig, null, typeof(CbsContext).GetTypeInfo().Assembly);
 
-            MasterFacilities.SeedDbSetIfEmpty($"{nameof(MasterFacility)}");
+            //MasterFacilities.SeedDbSetIfEmpty($"{nameof(MasterFacility)}");
             Dockets.SeedDbSetIfEmpty($"{nameof(Docket)}");
             SaveChanges();
             Subscribers.SeedDbSetIfEmpty($"{nameof(Subscriber)}");

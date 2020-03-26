@@ -136,7 +136,8 @@ namespace DwapiCentral
             try
             {
                 app.UseHangfireDashboard();
-                app.UseHangfireServer();
+                var options = new BackgroundJobServerOptions { WorkerCount = 1 };
+                app.UseHangfireServer(options);
             }
             catch (Exception e)
             {

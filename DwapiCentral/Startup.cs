@@ -81,9 +81,12 @@ namespace DwapiCentral
             services.AddScoped<IFacilityRepository, FacilityRepository>();
             services.AddScoped<IManifestRepository, ManifestRepository>();
             services.AddScoped<IMasterPatientIndexRepository, MasterPatientIndexRepository>();
+            services.AddScoped<IMetricMigrationExtractRepository, MetricMigrationExtractRepository>();
 
             services.AddScoped<IManifestService, ManifestService>();
+            services.AddScoped<IMgsManifestService, MgsManifestService>();
             services.AddScoped<IMpiService, MpiService>();
+            services.AddScoped<IMgsService, MgsService>();
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "DWAPI Central MPI API", Version = "v1" });

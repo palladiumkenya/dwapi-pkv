@@ -73,7 +73,7 @@ namespace DwapiCentral.Controllers
         }
 
         // POST api/mgs/Mpi
-        [HttpPost("Metric")]
+        [HttpPost("migrations")]
         public IActionResult ProcessMpi([FromBody] SaveMgs mpi)
         {
             if (null == mpi)
@@ -81,7 +81,7 @@ namespace DwapiCentral.Controllers
 
             try
             {
-                var id=  BackgroundJob.Enqueue(() => _mgsService.Process(mpi.MetricMigrationExtracts));
+                var id=  BackgroundJob.Enqueue(() => _mgsService.Process(mpi.Migrations));
                 return Ok(new
                 {
                     BatchKey = id

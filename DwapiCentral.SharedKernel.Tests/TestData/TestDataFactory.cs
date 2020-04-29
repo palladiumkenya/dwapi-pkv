@@ -54,7 +54,28 @@ namespace DwapiCentral.SharedKernel.Tests.TestData
                 facility.SiteCode = n;
                 facility.MasterPatientIndices = Builder<MasterPatientIndex>.CreateListOfSize(childcount)
                     .All()
-                    .With(x => x.FacilityId == facility.Id)
+                    .With(x=>x.RowId=0)
+                    .With(x => x.FacilityId = facility.Id)
+                    .Build()
+                    .ToList();
+            }
+            return facilities;
+        }
+
+        public static List<Facility> TestFacilityWithMetrics(int count = 2, int childcount = 3)
+        {
+            var facilities = Builder<Facility>.CreateListOfSize(count)
+                .Build()
+                .ToList();
+
+            int n = 0;
+            foreach (var facility in facilities)
+            {
+                n++;
+                facility.SiteCode = n;
+                facility.MetricMigrationExtracts = Builder<MetricMigrationExtract>.CreateListOfSize(childcount)
+                    .All()
+                    .With(x => x.FacilityId = facility.Id)
                     .Build()
                     .ToList();
             }
@@ -72,21 +93,33 @@ namespace DwapiCentral.SharedKernel.Tests.TestData
             return patientIndices;
         }
 
+        public static List<MetricMigrationExtract> TestMetricMigrationExtracts(int siteCode,Guid facilityId, int count = 5)
+        {
+            var metricMigrationExtracts = Builder<MetricMigrationExtract>.CreateListOfSize(count)
+                .All().With(x=>x.SiteCode=siteCode)
+                .With(x => x.FacilityId = facilityId)
+                .Build()
+                .ToList();
+            return metricMigrationExtracts;
+        }
+
         public static List<Manifest> TestManifests(int count = 2, int childcount = 3)
         {
             var manifests = Builder<Manifest>.CreateListOfSize(count)
                 .All().With(x=>x.Status==ManifestStatus.Staged)
                 .Build()
                 .ToList();
-            
+
             foreach (var manifest in manifests)
             {
-                
+
                 manifest.Cargoes = Builder<Cargo>.CreateListOfSize(childcount)
                     .All()
                     .With(x => x.ManifestId == manifest.Id)
                     .Build()
                     .ToList();
+
+                manifest.Cargoes.ToList()[1].Type = CargoType.MgsMetrics;
             }
             return manifests;
         }

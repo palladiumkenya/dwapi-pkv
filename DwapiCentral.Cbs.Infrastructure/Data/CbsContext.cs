@@ -21,6 +21,7 @@ namespace DwapiCentral.Cbs.Infrastructure.Data
         public DbSet<Manifest> Manifests { get; set; }
         public DbSet<Cargo> Cargoes { get; set; }
         public DbSet<MasterPatientIndex> MasterPatientIndices { get; set; }
+        public DbSet<MetricMigrationExtract> MetricMigrationExtracts { get; set; }
 
         public CbsContext(DbContextOptions<CbsContext> options) : base(options)
         {
@@ -44,6 +45,7 @@ namespace DwapiCentral.Cbs.Infrastructure.Data
             DapperPlusManager.Entity<Manifest>().Key(x => x.Id).Table($"{nameof(CbsContext.Manifests)}");
             DapperPlusManager.Entity<Cargo>().Key(x => x.Id).Table($"{nameof(CbsContext.Cargoes)}");
             DapperPlusManager.Entity<MasterPatientIndex>().Key(x => x.Id).Table($"{nameof(CbsContext.MasterPatientIndices)}");
+            DapperPlusManager.Entity<MetricMigrationExtract>().Key(x => x.Id).Table($"{nameof(CbsContext.MetricMigrationExtracts)}");
 
         }
 

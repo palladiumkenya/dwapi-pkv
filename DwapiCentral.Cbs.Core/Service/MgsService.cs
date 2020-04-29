@@ -1,60 +1,59 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using DwapiCentral.Cbs.Core.Interfaces.Repository;
 using DwapiCentral.Cbs.Core.Interfaces.Service;
 using DwapiCentral.Cbs.Core.Model;
-using DwapiCentral.SharedKernel.Enums;
 using DwapiCentral.SharedKernel.Exceptions;
 using DwapiCentral.SharedKernel.Model;
 using Serilog;
 
 namespace DwapiCentral.Cbs.Core.Service
 {
-    public class MpiService : IMpiService
+    public class MgsService : IMgsService
     {
-        private readonly IMasterPatientIndexRepository _manifestRepository;
+        private readonly IMetricMigrationExtractRepository _metricMigrationExtractRepository;
         private readonly IFacilityRepository _facilityRepository;
         private List<SiteProfile> _siteProfiles = new List<SiteProfile>();
 
-        public MpiService(IMasterPatientIndexRepository manifestRepository, IFacilityRepository facilityRepository)
+        public MgsService(IMetricMigrationExtractRepository metricMigrationExtractRepository, IFacilityRepository facilityRepository)
         {
-            _manifestRepository = manifestRepository;
+            _metricMigrationExtractRepository = metricMigrationExtractRepository;
             _facilityRepository = facilityRepository;
         }
 
-        public void Process(IEnumerable<MasterPatientIndex> masterPatientIndices)
+        public void Process(IEnumerable<MetricMigrationExtract> metricMigrationExtracts)
         {
             _siteProfiles = _facilityRepository.GetSiteProfiles().ToList();
 
-            var batch = new List<MasterPatientIndex>();
+            var batch = new List<MetricMigrationExtract>();
             int count = 0;
 
-            foreach (var masterPatientIndex in masterPatientIndices)
+            foreach (var metricMigrationExtract in metricMigrationExtracts)
             {
                 count++;
                 try
                 {
-                    masterPatientIndex.FacilityId = GetFacilityId(masterPatientIndex.SiteCode);
-                    batch.Add(masterPatientIndex);
+                    metricMigrationExtract.FacilityId = GetFacilityId(metricMigrationExtract.SiteCode);
+                    batch.Add(metricMigrationExtract);
                 }
                 catch (Exception e)
                 {
-                    Log.Error(e, $"Facility Id missing {masterPatientIndex.SiteCode}");
+                    Log.Error(e, $"Facility Id missing {metricMigrationExtract.SiteCode}");
                 }
 
 
                 if (count == 1000)
                 {
-                    _manifestRepository.CreateBulk(batch);
+                    _metricMigrationExtractRepository.CreateBulk(batch);
                     count = 0;
-                    batch = new List<MasterPatientIndex>();
+                    batch = new List<MetricMigrationExtract>();
                 }
 
             }
 
             if (batch.Any())
-                _manifestRepository.CreateBulk(batch);
+                _metricMigrationExtractRepository.CreateBulk(batch);
 
 
 

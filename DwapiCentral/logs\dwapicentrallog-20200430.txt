@@ -317,3 +317,39 @@ System.IO.IOException: Failed to bind to address http://[::]:6767: address alrea
    at Microsoft.AspNetCore.Hosting.WebHostExtensions.RunAsync(IWebHost host, CancellationToken token)
    at Microsoft.AspNetCore.Hosting.WebHostExtensions.Run(IWebHost host)
    at DwapiCentral.Program.Main(String[] args) in /Users/koskedk/Projects/hmis/HTSCentral/DwapiCentral/Program.cs:line 30
+2020-04-30 01:16:49.128 +03:00 [Error] Failed executing DbCommand ("4"ms) [Parameters=[""], CommandType='Text', CommandTimeout='30']"
+""CREATE TABLE [Dockets] (
+    [Id] nvarchar(450) NOT NULL,
+    [Name] nvarchar(max) NULL,
+    [Instance] nvarchar(max) NULL,
+    CONSTRAINT [PK_Dockets] PRIMARY KEY ([Id])
+);"
+System.Data.SqlClient.SqlException (0x80131904): There is already an object named 'Dockets' in the database.
+   at System.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at System.Data.SqlClient.SqlInternalConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at System.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, Boolean callerHasConnectionLock, Boolean asyncClose)
+   at System.Data.SqlClient.TdsParser.TryRun(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj, Boolean& dataReady)
+   at System.Data.SqlClient.SqlCommand.RunExecuteNonQueryTds(String methodName, Boolean async, Int32 timeout, Boolean asyncWrite)
+   at System.Data.SqlClient.SqlCommand.InternalExecuteNonQuery(TaskCompletionSource`1 completion, Boolean sendToPipe, Int32 timeout, Boolean asyncWrite, String methodName)
+   at System.Data.SqlClient.SqlCommand.ExecuteNonQuery()
+   at Microsoft.EntityFrameworkCore.Storage.Internal.RelationalCommand.Execute(IRelationalConnection connection, DbCommandMethod executeMethod, IReadOnlyDictionary`2 parameterValues)
+ClientConnectionId:2de6a82f-53cb-4fc1-b1d6-b2941a4eef4e
+Error Number:2714,State:6,Class:16
+2020-04-30 01:19:12.843 +03:00 [Error] Failed executing DbCommand ("3"ms) [Parameters=[""], CommandType='Text', CommandTimeout='30']"
+""CREATE TABLE [Dockets] (
+    [Id] nvarchar(450) NOT NULL,
+    [Name] nvarchar(max) NULL,
+    [Instance] nvarchar(max) NULL,
+    CONSTRAINT [PK_Dockets] PRIMARY KEY ([Id])
+);"
+System.Data.SqlClient.SqlException (0x80131904): There is already an object named 'Dockets' in the database.
+   at System.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at System.Data.SqlClient.SqlInternalConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at System.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, Boolean callerHasConnectionLock, Boolean asyncClose)
+   at System.Data.SqlClient.TdsParser.TryRun(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj, Boolean& dataReady)
+   at System.Data.SqlClient.SqlCommand.RunExecuteNonQueryTds(String methodName, Boolean async, Int32 timeout, Boolean asyncWrite)
+   at System.Data.SqlClient.SqlCommand.InternalExecuteNonQuery(TaskCompletionSource`1 completion, Boolean sendToPipe, Int32 timeout, Boolean asyncWrite, String methodName)
+   at System.Data.SqlClient.SqlCommand.ExecuteNonQuery()
+   at Microsoft.EntityFrameworkCore.Storage.Internal.RelationalCommand.Execute(IRelationalConnection connection, DbCommandMethod executeMethod, IReadOnlyDictionary`2 parameterValues)
+ClientConnectionId:981f76fa-81fc-458b-8b22-55c32a48c753
+Error Number:2714,State:6,Class:16

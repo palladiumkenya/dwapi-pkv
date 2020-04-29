@@ -19,7 +19,12 @@ namespace DwapiCentral.Cbs.Infrastructure.Data.Repository
         public Task<Docket> FindAsync(string docket)
         {
            var ctx=Context as CbsContext;
-            return ctx.Dockets.Include(x => x.Subscribers).AsTracking().FirstOrDefaultAsync(x => x.Id == docket);
+
+           var dockeT= ctx.Dockets.Include(x => x.Subscribers)
+               .AsTracking()
+               .FirstOrDefaultAsync(x => x.Id == docket);
+
+           return dockeT;
         }
     }
 }

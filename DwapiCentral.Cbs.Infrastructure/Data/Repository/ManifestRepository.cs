@@ -33,5 +33,24 @@ namespace DwapiCentral.Cbs.Infrastructure.Data.Repository
                     WHERE 
                         {nameof(Manifest.Id)} in ({mids})");
         }
+
+        public void ClearFacilityMetrics(IEnumerable<Manifest> manifests)
+        {
+            var ids = string.Join(',', manifests.Select(x =>$"'{x.FacilityId}'"));
+            ExecSql(
+                $"DELETE FROM {nameof(CbsContext.MetricMigrationExtracts)} WHERE {nameof(MetricMigrationExtract.FacilityId)} in ({ids})");
+
+
+            var mids = string.Join(',', manifests.Select(x => $"'{x.Id}'"));
+            ExecSql(
+                $@"
+                    UPDATE 
+                        {nameof(CbsContext.Manifests)} 
+                    SET 
+                        {nameof(Manifest.Status)}={(int)ManifestStatus.Processed},
+                        {nameof(Manifest.StatusDate)}=GETDATE()
+                    WHERE 
+                        {nameof(Manifest.Id)} in ({mids})");
+        }
     }
 }

@@ -13,6 +13,7 @@ namespace DwapiCentral.Cbs.Core.Model
         public int? MasterFacilityId { get; set; }
         public DateTime DateCreated { get; set; } = DateTime.Now;
         public ICollection<MasterPatientIndex> MasterPatientIndices { get; set; }=new List<MasterPatientIndex>();
+        public ICollection<MetricMigrationExtract> MetricMigrationExtracts { get; set; }=new List<MetricMigrationExtract>();
         public ICollection<Manifest> Manifests { get; set; }=new List<Manifest>();
 
         public Facility()

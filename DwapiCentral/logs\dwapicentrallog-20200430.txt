@@ -353,3 +353,45 @@ System.Data.SqlClient.SqlException (0x80131904): There is already an object name
    at Microsoft.EntityFrameworkCore.Storage.Internal.RelationalCommand.Execute(IRelationalConnection connection, DbCommandMethod executeMethod, IReadOnlyDictionary`2 parameterValues)
 ClientConnectionId:981f76fa-81fc-458b-8b22-55c32a48c753
 Error Number:2714,State:6,Class:16
+2020-04-30 14:56:37.473 +03:00 [Error] Failed executing DbCommand ("10"ms) [Parameters=[""], CommandType='Text', CommandTimeout='30']"
+""CREATE TABLE [Dockets] (
+    [Id] nvarchar(450) NOT NULL,
+    [Name] nvarchar(max) NULL,
+    [Instance] nvarchar(max) NULL,
+    CONSTRAINT [PK_Dockets] PRIMARY KEY ([Id])
+);"
+System.Data.SqlClient.SqlException (0x80131904): There is already an object named 'Dockets' in the database.
+   at System.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at System.Data.SqlClient.SqlInternalConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at System.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, Boolean callerHasConnectionLock, Boolean asyncClose)
+   at System.Data.SqlClient.TdsParser.TryRun(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj, Boolean& dataReady)
+   at System.Data.SqlClient.SqlCommand.RunExecuteNonQueryTds(String methodName, Boolean async, Int32 timeout, Boolean asyncWrite)
+   at System.Data.SqlClient.SqlCommand.InternalExecuteNonQuery(TaskCompletionSource`1 completion, Boolean sendToPipe, Int32 timeout, Boolean asyncWrite, String methodName)
+   at System.Data.SqlClient.SqlCommand.ExecuteNonQuery()
+   at Microsoft.EntityFrameworkCore.Storage.Internal.RelationalCommand.Execute(IRelationalConnection connection, DbCommandMethod executeMethod, IReadOnlyDictionary`2 parameterValues)
+ClientConnectionId:b1fa5248-0c3e-4f20-a10f-0cffa396578c
+Error Number:2714,State:6,Class:16
+2020-04-30 15:51:24.278 +03:00 [Error] Facility Id missing 10009
+DwapiCentral.SharedKernel.Exceptions.FacilityNotFoundException: Facility not found with MFL Code 10009
+   at DwapiCentral.Cbs.Core.Service.MgsService.GetFacilityId(Int32 siteCode) in /Users/koskedk/Projects/hmis/HTSCentral/DwapiCentral.Cbs.Core/Service/MgsService.cs:line 68
+   at DwapiCentral.Cbs.Core.Service.MgsService.Process(IEnumerable`1 metricMigrationExtracts) in /Users/koskedk/Projects/hmis/HTSCentral/DwapiCentral.Cbs.Core/Service/MgsService.cs:line 37
+2020-04-30 15:51:24.468 +03:00 [Error] Facility Id missing 10009
+DwapiCentral.SharedKernel.Exceptions.FacilityNotFoundException: Facility not found with MFL Code 10009
+   at DwapiCentral.Cbs.Core.Service.MgsService.GetFacilityId(Int32 siteCode) in /Users/koskedk/Projects/hmis/HTSCentral/DwapiCentral.Cbs.Core/Service/MgsService.cs:line 68
+   at DwapiCentral.Cbs.Core.Service.MgsService.Process(IEnumerable`1 metricMigrationExtracts) in /Users/koskedk/Projects/hmis/HTSCentral/DwapiCentral.Cbs.Core/Service/MgsService.cs:line 37
+2020-04-30 15:51:24.637 +03:00 [Error] Facility Id missing 10009
+DwapiCentral.SharedKernel.Exceptions.FacilityNotFoundException: Facility not found with MFL Code 10009
+   at DwapiCentral.Cbs.Core.Service.MgsService.GetFacilityId(Int32 siteCode) in /Users/koskedk/Projects/hmis/HTSCentral/DwapiCentral.Cbs.Core/Service/MgsService.cs:line 68
+   at DwapiCentral.Cbs.Core.Service.MgsService.Process(IEnumerable`1 metricMigrationExtracts) in /Users/koskedk/Projects/hmis/HTSCentral/DwapiCentral.Cbs.Core/Service/MgsService.cs:line 37
+2020-04-30 15:51:24.789 +03:00 [Error] Facility Id missing 10009
+DwapiCentral.SharedKernel.Exceptions.FacilityNotFoundException: Facility not found with MFL Code 10009
+   at DwapiCentral.Cbs.Core.Service.MgsService.GetFacilityId(Int32 siteCode) in /Users/koskedk/Projects/hmis/HTSCentral/DwapiCentral.Cbs.Core/Service/MgsService.cs:line 68
+   at DwapiCentral.Cbs.Core.Service.MgsService.Process(IEnumerable`1 metricMigrationExtracts) in /Users/koskedk/Projects/hmis/HTSCentral/DwapiCentral.Cbs.Core/Service/MgsService.cs:line 37
+2020-04-30 15:51:24.962 +03:00 [Error] Facility Id missing 10009
+DwapiCentral.SharedKernel.Exceptions.FacilityNotFoundException: Facility not found with MFL Code 10009
+   at DwapiCentral.Cbs.Core.Service.MgsService.GetFacilityId(Int32 siteCode) in /Users/koskedk/Projects/hmis/HTSCentral/DwapiCentral.Cbs.Core/Service/MgsService.cs:line 68
+   at DwapiCentral.Cbs.Core.Service.MgsService.Process(IEnumerable`1 metricMigrationExtracts) in /Users/koskedk/Projects/hmis/HTSCentral/DwapiCentral.Cbs.Core/Service/MgsService.cs:line 37
+2020-04-30 15:51:25.113 +03:00 [Error] Facility Id missing 10009
+DwapiCentral.SharedKernel.Exceptions.FacilityNotFoundException: Facility not found with MFL Code 10009
+   at DwapiCentral.Cbs.Core.Service.MgsService.GetFacilityId(Int32 siteCode) in /Users/koskedk/Projects/hmis/HTSCentral/DwapiCentral.Cbs.Core/Service/MgsService.cs:line 68
+   at DwapiCentral.Cbs.Core.Service.MgsService.Process(IEnumerable`1 metricMigrationExtracts) in /Users/koskedk/Projects/hmis/HTSCentral/DwapiCentral.Cbs.Core/Service/MgsService.cs:line 37

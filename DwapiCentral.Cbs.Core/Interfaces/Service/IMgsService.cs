@@ -5,6 +5,6 @@ namespace DwapiCentral.Cbs.Core.Interfaces.Service
 {
     public interface IMgsService
     {
-        void Process(IEnumerable<MetricMigrationExtract> metricMigrationExtracts);
+        void Process(IEnumerable<MetricMigrationExtract> metricMigrationExtracts, bool sync = true);
     }
 }

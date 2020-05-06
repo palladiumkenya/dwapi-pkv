@@ -13,6 +13,8 @@ namespace DwapiCentral.Cbs.Infrastructure.Data.Repository
 {
     public class FacilityRepository : BaseRepository<Facility, Guid>, IFacilityRepository
     {
+        private IFacilityRepository _facilityRepositoryImplementation;
+
         public FacilityRepository(CbsContext context) : base(context)
         {
         }
@@ -42,13 +44,30 @@ namespace DwapiCentral.Cbs.Infrastructure.Data.Repository
                 {
                     Log.Error(e.Message);
                 }
-
-
             }
             return list;
         }
 
-        public StatsDto GetFacStats(Guid facilityId)
+          public IEnumerable<StatsDto> GetFacMgsStats(IEnumerable<Guid> facilityIds)
+          {
+              var list = new List<StatsDto>();
+              foreach (var facilityId in facilityIds)
+              {
+                  try
+                  {
+                      var stat = GetFacMetricStats(facilityId);
+                      if(null!=stat)
+                          list.Add(stat);
+                  }
+                  catch (Exception e)
+                  {
+                      Log.Error(e.Message);
+                  }
+              }
+              return list;
+          }
+
+          public StatsDto GetFacStats(Guid facilityId)
         {
             string sql = $@"
 select

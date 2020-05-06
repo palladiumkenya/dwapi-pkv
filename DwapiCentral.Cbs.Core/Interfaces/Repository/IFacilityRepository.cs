@@ -12,6 +12,7 @@ namespace DwapiCentral.Cbs.Core.Interfaces.Repository
         IEnumerable<SiteProfile> GetSiteProfiles();
         IEnumerable<SiteProfile> GetSiteProfiles(List<int> siteCodes);
         IEnumerable<StatsDto> GetFacStats(IEnumerable<Guid> facilityIds);
+        IEnumerable<StatsDto> GetFacMgsStats(IEnumerable<Guid> facilityIds);
         StatsDto GetFacStats(Guid facilityId);
         StatsDto GetFacMetricStats(Guid facilityId);
     }

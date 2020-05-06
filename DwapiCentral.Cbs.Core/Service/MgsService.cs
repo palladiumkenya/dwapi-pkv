@@ -14,16 +14,25 @@ namespace DwapiCentral.Cbs.Core.Service
     {
         private readonly IMetricMigrationExtractRepository _metricMigrationExtractRepository;
         private readonly IFacilityRepository _facilityRepository;
+        private readonly ILiveSyncService _syncService;
         private List<SiteProfile> _siteProfiles = new List<SiteProfile>();
 
-        public MgsService(IMetricMigrationExtractRepository metricMigrationExtractRepository, IFacilityRepository facilityRepository)
+        public MgsService(IMetricMigrationExtractRepository metricMigrationExtractRepository, IFacilityRepository facilityRepository, ILiveSyncService syncService)
         {
             _metricMigrationExtractRepository = metricMigrationExtractRepository;
             _facilityRepository = facilityRepository;
+            _syncService = syncService;
         }
 
-        public void Process(IEnumerable<MetricMigrationExtract> metricMigrationExtracts)
+        public void Process(IEnumerable<MetricMigrationExtract> metricMigrationExtracts, bool sync=true)
         {
+            List<Guid> facilityIds = new List<Guid>();
+
+            if (null == metricMigrationExtracts)
+                return;
+            if (!metricMigrationExtracts.Any())
+                return;
+
             _siteProfiles = _facilityRepository.GetSiteProfiles().ToList();
 
             var batch = new List<MetricMigrationExtract>();
@@ -36,6 +45,7 @@ namespace DwapiCentral.Cbs.Core.Service
                 {
                     metricMigrationExtract.FacilityId = GetFacilityId(metricMigrationExtract.SiteCode);
                     batch.Add(metricMigrationExtract);
+                    facilityIds.Add(metricMigrationExtract.FacilityId);
                 }
                 catch (Exception e)
                 {
@@ -55,7 +65,8 @@ namespace DwapiCentral.Cbs.Core.Service
             if (batch.Any())
                 _metricMigrationExtractRepository.CreateBulk(batch);
 
-
+            if (sync)
+                SyncClients(facilityIds);
 
         }
 
@@ -66,6 +77,14 @@ namespace DwapiCentral.Cbs.Core.Service
                 throw new FacilityNotFoundException(siteCode);
 
             return profile.FacilityId;
+        }
+
+        private void SyncClients(List<Guid> facIlds)
+        {
+            if (facIlds.Any())
+            {
+                _syncService.SyncStats(facIlds.Distinct().ToList());
+            }
         }
     }
 }

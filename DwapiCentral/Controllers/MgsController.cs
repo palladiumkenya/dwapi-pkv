@@ -78,7 +78,7 @@ namespace DwapiCentral.Controllers
 
             try
             {
-                var id=  BackgroundJob.Enqueue(() => _mgsService.Process(mpi.Migrations));
+                var id=  BackgroundJob.Enqueue(() => _mgsService.Process(mpi.Migrations,true));
                 return Ok(new
                 {
                     BatchKey = id

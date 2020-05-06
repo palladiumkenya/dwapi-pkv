@@ -1,7 +1,6 @@
 ﻿using System;
 using DwapiCentral.Cbs.Core.Command;
 using DwapiCentral.Cbs.Core.CommandHandler;
-using DwapiCentral.Cbs.Core.Interfaces;
 using DwapiCentral.Cbs.Core.Interfaces.Repository;
 using DwapiCentral.Cbs.Core.Model;
 using DwapiCentral.Cbs.Infrastructure.Data;

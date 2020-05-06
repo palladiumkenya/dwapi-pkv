@@ -2,7 +2,6 @@
 using System.Threading;
 using System.Threading.Tasks;
 using DwapiCentral.Cbs.Core.Command;
-using DwapiCentral.Cbs.Core.Interfaces;
 using DwapiCentral.Cbs.Core.Interfaces.Repository;
 using DwapiCentral.Cbs.Core.Model;
 using MediatR;

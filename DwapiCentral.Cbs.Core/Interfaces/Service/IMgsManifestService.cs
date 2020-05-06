@@ -2,6 +2,6 @@ namespace DwapiCentral.Cbs.Core.Interfaces.Service
 {
     public interface IMgsManifestService
     {
-        void Process();
+        void Process(bool sync = true);
     }
 }

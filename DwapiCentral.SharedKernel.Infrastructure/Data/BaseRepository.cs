@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using Dapper;
 using DwapiCentral.SharedKernel.Interfaces;
 using DwapiCentral.SharedKernel.Model;
+using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
 using Z.Dapper.Plus;
 
@@ -53,7 +54,7 @@ namespace DwapiCentral.SharedKernel.Infrastructure.Data
 
         public virtual void CreateBulk(IEnumerable<T> entities)
         {
-            using (var cn=new SqlConnection(ConnectionString))
+            using (var cn=GetDbConnection())
             {
                 cn.BulkInsert(entities);
             }
@@ -61,7 +62,7 @@ namespace DwapiCentral.SharedKernel.Infrastructure.Data
 
         public virtual void UpdateBulk(IEnumerable<T> entities)
         {
-            using (var cn = new SqlConnection(ConnectionString))
+            using (var cn = GetDbConnection())
             {
                 cn.BulkUpdate(entities);
             }
@@ -79,7 +80,7 @@ namespace DwapiCentral.SharedKernel.Infrastructure.Data
 
         public int ExecSql(string sql)
         {
-            using (var cn = new SqlConnection(ConnectionString))
+            using (var cn = GetDbConnection())
             {
                 cn.Execute(sql);
             }
@@ -88,16 +89,25 @@ namespace DwapiCentral.SharedKernel.Infrastructure.Data
 
         public virtual async Task<int> ExecSqlAsync(string sql)
         {
-            using (var cn = new SqlConnection(ConnectionString))
+            using (var cn = GetDbConnection())
             {
                 await cn.ExecuteAsync(sql);
             }
-
             return 1;
         }
 
         public IDbConnection GetDbConnection()
         {
+            if (Context.Database.IsSqlServer())
+            {
+                return new SqlConnection(Context.Database.GetDbConnection().ConnectionString);
+            }
+
+            if (Context.Database.IsSqlite())
+            {
+                return new SqliteConnection(Context.Database.GetDbConnection().ConnectionString);
+            }
+
             return Context.Database.GetDbConnection();
         }
     }

@@ -1,8 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Xml;
-using DwapiCentral.SharedKernel;
 using DwapiCentral.SharedKernel.Model;
 
 namespace DwapiCentral.Cbs.Core.Model

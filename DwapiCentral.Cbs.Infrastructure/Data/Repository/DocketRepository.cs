@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Linq.Expressions;
-using System.Threading.Tasks;
-using DwapiCentral.Cbs.Core.Interfaces;
+﻿using System.Threading.Tasks;
 using DwapiCentral.Cbs.Core.Interfaces.Repository;
 using DwapiCentral.Cbs.Core.Model;
 using DwapiCentral.SharedKernel.Infrastructure.Data;

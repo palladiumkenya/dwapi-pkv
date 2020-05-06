@@ -1,6 +1,5 @@
 ﻿using System;
 using DwapiCentral.SharedKernel.Infrastructure.Data;
-using DwapiCentral.SharedKernel.Infrastructure.Tests.Data;
 using DwapiCentral.SharedKernel.Tests.TestData.Interfaces;
 using DwapiCentral.SharedKernel.Tests.TestData.Models;
 using Microsoft.EntityFrameworkCore;

@@ -6,7 +6,9 @@ namespace DwapiCentral.Cbs.Infrastructure.Migrations
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.Sql(@"
+	        if (migrationBuilder.ActiveProvider.ToLower().Contains("SqlServer".ToLower()))
+	        {
+                migrationBuilder.Sql(@"
 
 				/****** Object:  UserDefinedFunction [dbo].[fnReplaceInvalidChars]    Script Date: 6/5/2018 10:53:24 ******/
 				SET ANSI_NULLS ON
@@ -291,17 +293,21 @@ namespace DwapiCentral.Cbs.Infrastructure.Migrations
 
 				GO
 				");
+	        }
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.Sql("DROP FUNCTION [dbo].[fn_calculateJaroWinkler]");
-            migrationBuilder.Sql("DROP FUNCTION [dbo].[fn_calculateJaro]");
-            migrationBuilder.Sql("DROP FUNCTION [dbo].[fn_calculateMatchWindow]");
-            migrationBuilder.Sql("DROP FUNCTION [dbo].[fn_calculatePrefixLength]");
-            migrationBuilder.Sql("DROP FUNCTION [dbo].[fn_calculateTranspositions]");
-            migrationBuilder.Sql("DROP FUNCTION [dbo].[fn_GetCommonCharacters]");
-            migrationBuilder.Sql("DROP FUNCTION [dbo].[fnReplaceInvalidChars]");
+	        if (migrationBuilder.ActiveProvider.ToLower().Contains("SqlServer".ToLower()))
+	        {
+		        migrationBuilder.Sql("DROP FUNCTION [dbo].[fn_calculateJaroWinkler]");
+		        migrationBuilder.Sql("DROP FUNCTION [dbo].[fn_calculateJaro]");
+		        migrationBuilder.Sql("DROP FUNCTION [dbo].[fn_calculateMatchWindow]");
+		        migrationBuilder.Sql("DROP FUNCTION [dbo].[fn_calculatePrefixLength]");
+		        migrationBuilder.Sql("DROP FUNCTION [dbo].[fn_calculateTranspositions]");
+		        migrationBuilder.Sql("DROP FUNCTION [dbo].[fn_GetCommonCharacters]");
+		        migrationBuilder.Sql("DROP FUNCTION [dbo].[fnReplaceInvalidChars]");
+	        }
         }
     }
 }

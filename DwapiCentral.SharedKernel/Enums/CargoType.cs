@@ -13,4 +13,9 @@
         Staged,
         Processed
     }
+    public enum ManifestType
+    {
+        Normal,
+        Migration
+    }
 }

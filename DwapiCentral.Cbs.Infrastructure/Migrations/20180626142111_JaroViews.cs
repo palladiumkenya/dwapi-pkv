@@ -6,7 +6,9 @@ namespace DwapiCentral.Cbs.Infrastructure.Migrations
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.Sql(@"
+            if (migrationBuilder.ActiveProvider.ToLower().Contains("SqlServer".ToLower()))
+            {
+                migrationBuilder.Sql(@"
 create view vMasterPatientIndicesJaro
                 as
                 SELECT 
@@ -27,11 +29,15 @@ A.PatientPk,A.SiteCode,A.FacilityName,
                 ) AS  B
             ON A.sxdmPKValueDoB = B.sxdmPKValueDoB
                 ");
+            }
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.Sql("DROP View vMasterPatientIndicesJaro");
+            if (migrationBuilder.ActiveProvider.ToLower().Contains("SqlServer".ToLower()))
+            {
+                migrationBuilder.Sql("DROP View vMasterPatientIndicesJaro");
+            }
         }
     }
 }

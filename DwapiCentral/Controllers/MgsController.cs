@@ -1,11 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using DwapiCentral.Cbs.Core.Command;
 using DwapiCentral.Cbs.Core.Interfaces.Repository;
 using DwapiCentral.Cbs.Core.Interfaces.Service;
-using DwapiCentral.SharedKernel.DTOs;
 using Hangfire;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -59,7 +56,7 @@ namespace DwapiCentral.Controllers
             try
             {
                 var faciliyKey = await _mediator.Send(manifest, HttpContext.RequestAborted);
-                BackgroundJob.Enqueue(() => _manifestService.Process());
+                BackgroundJob.Enqueue(() => _manifestService.Process(true));
                 return Ok(new
                 {
                     FacilityKey = faciliyKey

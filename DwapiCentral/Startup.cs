@@ -1,12 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
+using System.Net.Http;
 using System.Reflection;
-using System.Threading.Tasks;
 using AutoMapper;
 using AutoMapper.Data;
-using DwapiCentral.Cbs.Core.Interfaces;
 using DwapiCentral.Cbs.Core.Interfaces.Repository;
 using DwapiCentral.Cbs.Core.Interfaces.Service;
 using DwapiCentral.Cbs.Core.Profiles;
@@ -16,17 +14,13 @@ using DwapiCentral.Cbs.Infrastructure.Data.Repository;
 using DwapiCentral.SharedKernel.Infrastructure.Data;
 using Hangfire;
 using MediatR;
-using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpOverrides;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
 using Microsoft.OpenApi.Models;
 using Serilog;
 using StructureMap;
@@ -65,6 +59,9 @@ namespace DwapiCentral
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
             var connectionString = Configuration["ConnectionStrings:DwapiConnection"];
+
+            var liveSync= Configuration["LiveSync"];
+
             try
             {
                 services.AddDbContext<CbsContext>(o => o.UseSqlServer(connectionString, x => x.MigrationsAssembly(typeof(CbsContext).GetTypeInfo().Assembly.GetName().Name)));
@@ -87,6 +84,18 @@ namespace DwapiCentral
             services.AddScoped<IMgsManifestService, MgsManifestService>();
             services.AddScoped<IMpiService, MpiService>();
             services.AddScoped<IMgsService, MgsService>();
+
+            services.AddScoped<ILiveSyncService, LiveSyncService>();
+            if (!string.IsNullOrWhiteSpace(liveSync))
+            {
+                Uri endPointA = new Uri(liveSync); // this is the endpoint HttpClient will hit
+                HttpClient httpClient = new HttpClient()
+                {
+                    BaseAddress = endPointA,
+                };
+                services.AddSingleton<HttpClient>(httpClient);
+            }
+
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "DWAPI Central MPI API", Version = "v1" });

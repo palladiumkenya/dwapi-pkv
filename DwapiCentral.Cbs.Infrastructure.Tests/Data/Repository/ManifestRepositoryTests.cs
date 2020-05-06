@@ -36,7 +36,7 @@ namespace DwapiCentral.Cbs.Infrastructure.Tests.Data.Repository
                 .BuildServiceProvider();
 
             _facilities = TestDataFactory.TestFacilityWithPatients(1);
-            _mgsFacilities = TestDataFactory.TestFacilityWithMetrics(1);
+            _mgsFacilities = TestDataFactory.TestFacilityWithMgs(1);
 
             _manifests = TestDataFactory.TestManifests(2);
 

@@ -1,5 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.Reflection;
+﻿using System.Reflection;
 using CsvHelper.Configuration;
 using DwapiCentral.Cbs.Core.Model;
 using DwapiCentral.SharedKernel.Infrastructure.Data;

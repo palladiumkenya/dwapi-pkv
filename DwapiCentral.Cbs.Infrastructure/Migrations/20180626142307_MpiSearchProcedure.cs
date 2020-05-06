@@ -6,7 +6,9 @@ namespace DwapiCentral.Cbs.Infrastructure.Migrations
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.Sql(@"
+            if (migrationBuilder.ActiveProvider.ToLower().Contains("SqlServer".ToLower()))
+            {
+                migrationBuilder.Sql(@"
             /****** Object:  StoredProcedure [dbo].[Pr_SearchMasterPatientIndex]    Script Date: 6/26/2018 11:19:43 ******/
 SET ANSI_NULLS ON
 GO
@@ -166,11 +168,15 @@ SELECT * FROM @Results ORDER BY MatchingScore DESC
 go 
 
             ");
+            }
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.Sql("DROP PROC Pr_SearchMasterPatientIndex ");
+            if (migrationBuilder.ActiveProvider.ToLower().Contains("SqlServer".ToLower()))
+            {
+                migrationBuilder.Sql("DROP PROC Pr_SearchMasterPatientIndex ");
+            }
         }
     }
 }

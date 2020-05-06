@@ -5,5 +5,6 @@ namespace DwapiCentral.Cbs.Core.Interfaces.Repository
 {
     public interface IMasterFacilityRepository:IRepository<MasterFacility,int>
     {
+        MasterFacility GetBySiteCode(int siteCode);
     }
 }

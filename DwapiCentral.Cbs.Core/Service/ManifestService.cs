@@ -1,25 +1,64 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using DwapiCentral.Cbs.Core.Interfaces.Repository;
 using DwapiCentral.Cbs.Core.Interfaces.Service;
-using DwapiCentral.SharedKernel.Enums;
+using DwapiCentral.Cbs.Core.Model.Dto;
+using Serilog;
 
 namespace DwapiCentral.Cbs.Core.Service
 {
     public class ManifestService:IManifestService
     {
         private readonly IManifestRepository _manifestRepository;
-
-        public ManifestService(IManifestRepository manifestRepository)
+        private readonly IMasterFacilityRepository _masterFacilityRepository;
+        private  readonly ILiveSyncService _liveSyncService;
+        public ManifestService(IManifestRepository manifestRepository, IMasterFacilityRepository masterFacilityRepository, ILiveSyncService liveSyncService)
         {
             _manifestRepository = manifestRepository;
+            _masterFacilityRepository = masterFacilityRepository;
+            _liveSyncService = liveSyncService;
         }
 
-        public void Process()
+        public void Process(bool sync = true)
         {
-            var manifests = _manifestRepository.GetAll(x => x.Status == ManifestStatus.Staged).ToList();
+            var manifests = _manifestRepository.GetStaged().ToList();
+
             if (manifests.Any())
             {
-                _manifestRepository.ClearFacility(manifests);
+                try
+                {
+                    _manifestRepository.ClearFacility(manifests);
+                }
+                catch (Exception e)
+                {
+                    Log.Error("Clear MANIFEST ERROR ", e);
+                }
+
+                foreach (var manifest in manifests)
+                {
+                    var clientCount = _manifestRepository.GetPatientCount(manifest.Id);
+                    if (sync)
+                        _liveSyncService.SyncManifest(manifest, clientCount, "MPI");
+
+                    try
+                    {
+                        // Get MasterFacility
+                        var masterFacility = _masterFacilityRepository.GetBySiteCode(manifest.SiteCode);
+
+                        if (null != masterFacility)
+                        {
+                            // Sync Metrics
+                            var metricDtos = MetricDto.Generate(masterFacility, manifest);
+                            if (sync)
+                                _liveSyncService.SyncMetrics(metricDtos);
+                        }
+                    }
+                    catch (Exception e)
+                    {
+                        Log.Error(e.Message);
+                    }
+
+                }
             }
         }
     }

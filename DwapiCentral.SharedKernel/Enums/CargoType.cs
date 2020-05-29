@@ -18,4 +18,10 @@
         Normal,
         Migration
     }
+
+    public enum EmrSetup
+    {
+        SingleFacility,
+        MultiFacility
+    }
 }

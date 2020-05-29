@@ -17,7 +17,7 @@ namespace DwapiCentral
                 .MinimumLevel.Override("Microsoft", LogEventLevel.Debug)
                 .Enrich.FromLogContext()
                 .WriteTo.Console(LogEventLevel.Debug)
-                .WriteTo.RollingFile("logs\\dwapicentrallog-{Date}.txt", LogEventLevel.Error)
+                .WriteTo.RollingFile("logs/dwapicentrallog-{Date}.txt", LogEventLevel.Error)
                 .CreateLogger();
 
             try

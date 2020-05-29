@@ -18,6 +18,9 @@ namespace DwapiCentral.Cbs.Core.Model
 
         public ManifestType ManifestType { get; set; }
         public Guid FacilityId { get; set; }
+        public Guid? EmrId { get; set; }
+        public string EmrName { get; set; }
+        public EmrSetup EmrSetup { get; set; }
         public ICollection<Cargo> Cargoes { get; set; } = new List<Cargo>();
 
         public Manifest()

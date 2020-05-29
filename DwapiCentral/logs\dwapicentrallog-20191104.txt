@@ -1,4 +1,0 @@
-2019-11-04 19:23:39.081 +03:00 [Error] verify error
-DwapiCentral.SharedKernel.Exceptions.DocketNotFoundException: Docket CBS does not exist
-   at DwapiCentral.Cbs.Core.CommandHandler.VerifySubscriberHandler.Handle(VerifySubscriber request, CancellationToken cancellationToken) in /Users/koskedk/Projects/hmis/HTSCentral/DwapiCentral.Cbs.Core/CommandHandler/VerifySubscriberHandler.cs:line 31
-   at DwapiCentral.Controllers.CbsController.Verify(VerifySubscriber subscriber) in /Users/koskedk/Projects/hmis/HTSCentral/DwapiCentral/Controllers/CbsController.cs:line 42

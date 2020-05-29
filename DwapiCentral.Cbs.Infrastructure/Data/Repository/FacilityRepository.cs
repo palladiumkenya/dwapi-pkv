@@ -7,6 +7,7 @@ using DwapiCentral.Cbs.Core.Interfaces.Repository;
 using DwapiCentral.Cbs.Core.Model;
 using DwapiCentral.SharedKernel.Infrastructure.Data;
 using DwapiCentral.SharedKernel.Model;
+using Microsoft.EntityFrameworkCore;
 using Serilog;
 
 namespace DwapiCentral.Cbs.Infrastructure.Data.Repository
@@ -108,6 +109,11 @@ select
             }
 
             return null;
+        }
+
+        public Facility GetBySiteCode(int siteCode)
+        {
+            return DbSet.FirstOrDefault(x=>x.SiteCode==siteCode);
         }
     }
 }

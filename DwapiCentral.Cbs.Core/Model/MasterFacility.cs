@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using DwapiCentral.SharedKernel.Model;
@@ -14,6 +15,7 @@ namespace DwapiCentral.Cbs.Core.Model
         public string Name { get; set; }
         [MaxLength(120)]
         public string County { get; set; }
+        public DateTime? SnapshotDate { get; set; }
 
         public ICollection<Facility> Mentions { get; set; }=new List<Facility>();
 
@@ -31,6 +33,14 @@ namespace DwapiCentral.Cbs.Core.Model
         public override string ToString()
         {
             return $"{Name} [{County}]";
+        }
+
+        public MasterFacility TakeSnap()
+        {
+            var fac = this;
+            fac.Id = -1 * Id;
+            fac.SnapshotDate=DateTime.Now;
+            return fac;
         }
     }
 }

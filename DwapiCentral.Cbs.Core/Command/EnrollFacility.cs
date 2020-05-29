@@ -9,11 +9,14 @@ namespace DwapiCentral.Cbs.Core.Command
         public string Name { get;  }
         public string Emr { get; set; }
 
-        public EnrollFacility(int siteCode, string name,string emr)
+        public bool IsMgs { get; }
+
+        public EnrollFacility(int siteCode, string name,string emr,bool isMgs=false)
         {
             SiteCode = siteCode;
             Name = name;
             Emr = emr;
+            IsMgs = isMgs;
         }
     }
 }

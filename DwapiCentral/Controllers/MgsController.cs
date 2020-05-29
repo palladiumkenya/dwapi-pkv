@@ -55,6 +55,7 @@ namespace DwapiCentral.Controllers
 
             try
             {
+                manifest.IsMgs = true;
                 var faciliyKey = await _mediator.Send(manifest, HttpContext.RequestAborted);
                 BackgroundJob.Enqueue(() => _manifestService.Process(true));
                 return Ok(new

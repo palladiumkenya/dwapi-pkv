@@ -37,9 +37,13 @@ namespace DwapiCentral.Cbs.Core.CommandHandler
                 return newFacility.Id;
             }
 
-            // Take Facility SnapShot
+            if(request.IsMgs)
+                return facility.Id;
 
-            if (facility.EmrChanged(request.Emr))
+
+            // Take Facility SnapShot for MPI only
+
+            if ( facility.EmrChanged(request.Emr))
             {
                 await _mediator.Send(new SnapMasterFacility(facility.SiteCode), cancellationToken);
 

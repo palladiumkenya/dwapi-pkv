@@ -19,9 +19,12 @@ namespace DwapiCentral.Cbs.Core.Model
             return Subscribers.Any(x => x.Name.IsSameAs(name));
         }
 
-        public bool SubscriberAuthorized(string name, string authcode)
+        public bool SubscriberAuthorized(string name,string docket, string authcode)
         {
-            return Subscribers.Any(x => x.Name.IsSameAs(name) && x.AuthCode.IsSameAs(authcode));
+            return Subscribers.Any(x =>
+                x.Name.IsSameAs(name) &&
+                x.DocketId.IsSameAs(docket) &&
+                x.AuthCode.IsSameAs(authcode));
         }
     }
 }

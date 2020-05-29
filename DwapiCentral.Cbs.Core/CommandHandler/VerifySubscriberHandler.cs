@@ -28,7 +28,7 @@ namespace DwapiCentral.Cbs.Core.CommandHandler
             if (!docket.SubscriberExists(request.SubscriberId))
                 throw new SubscriberNotFoundException(request.SubscriberId);
 
-            if (docket.SubscriberAuthorized(request.SubscriberId, request.AuthToken))
+            if (docket.SubscriberAuthorized(request.SubscriberId,request.DocketId, request.AuthToken))
                     return new VerificationResponse(docket.Name,true);
 
             throw new SubscriberNotAuthorizedException(request.SubscriberId);

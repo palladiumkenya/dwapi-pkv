@@ -87,6 +87,7 @@ namespace DwapiCentral.Cbs.Core.Tests.CommandHandler
         public void should_Snap_Enroll_New_Facility()
         {
             var facilityId = _mediator.Send(new EnrollFacility(1, "XFac (Ke)", "KenyaEMR")).Result;
+            var facilityIdVer2 = _mediator.Send(new EnrollFacility(1, "XFac (IQ)", "IQCare")).Result;
 
             var facility = _context.Facilities.Find(facilityId);
             var mflfacility = _context.MasterFacilities.Find(facility.SiteCode);

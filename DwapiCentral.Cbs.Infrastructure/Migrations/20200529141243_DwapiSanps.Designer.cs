@@ -4,14 +4,16 @@ using DwapiCentral.Cbs.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace DwapiCentral.Cbs.Infrastructure.Migrations
 {
     [DbContext(typeof(CbsContext))]
-    partial class CbsContextModelSnapshot : ModelSnapshot
+    [Migration("20200529141243_DwapiSanps")]
+    partial class DwapiSanps
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -69,10 +71,6 @@ namespace DwapiCentral.Cbs.Infrastructure.Migrations
 
                     b.Property<DateTime?>("SnapshotDate");
 
-                    b.Property<int?>("SnapshotSiteCode");
-
-                    b.Property<int?>("SnapshotVersion");
-
                     b.HasKey("Id");
 
                     b.HasIndex("MasterFacilityId");
@@ -129,10 +127,6 @@ namespace DwapiCentral.Cbs.Infrastructure.Migrations
                         .HasMaxLength(120);
 
                     b.Property<DateTime?>("SnapshotDate");
-
-                    b.Property<int?>("SnapshotSiteCode");
-
-                    b.Property<int?>("SnapshotVersion");
 
                     b.HasKey("Id");
 

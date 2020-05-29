@@ -14,6 +14,8 @@ namespace DwapiCentral.Cbs.Core.Model
         public DateTime DateCreated { get; set; } = DateTime.Now;
         public string Emr { get; set; }
         public DateTime? SnapshotDate { get; set; }
+        public int? SnapshotSiteCode { get; set; }
+        public int? SnapshotVersion { get; set; }
 
         public ICollection<MasterPatientIndex> MasterPatientIndices { get; set; } = new List<MasterPatientIndex>();
 
@@ -51,11 +53,15 @@ namespace DwapiCentral.Cbs.Core.Model
             return !Emr.IsSameAs(requestEmr);
         }
 
-        public Facility TakeSnap()
+        public Facility TakeSnapFrom(MasterFacility snapMfl)
         {
             var fac = this;
+
             fac.SnapshotDate = DateTime.Now;
-            fac.SiteCode = -1 * SiteCode;
+            fac.SiteCode = snapMfl.Id;
+            fac.SnapshotSiteCode = snapMfl.SnapshotSiteCode;
+            fac.SnapshotVersion = snapMfl.SnapshotVersion;
+
             return fac;
         }
     }

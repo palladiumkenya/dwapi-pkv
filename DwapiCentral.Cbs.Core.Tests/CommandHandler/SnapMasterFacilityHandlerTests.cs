@@ -50,20 +50,25 @@ namespace DwapiCentral.Cbs.Core.Tests.CommandHandler
         [Test]
         public void should_Snap_Master_Facility()
         {
-            var command = _mediator.Send(new SnapMasterFacility(1)).Result;
-            Assert.True(command);
+            var firstCommand = _mediator.Send(new SnapMasterFacility(1)).Result;
+            Assert.True(firstCommand);
 
-            var masterFacility = _context.MasterFacilities.Find(-1);
+            var secondCommand = _mediator.Send(new SnapMasterFacility(1)).Result;
+            Assert.True(secondCommand);
+
             var originalMasterFacility = _context.MasterFacilities.Find(1);
-            var facility = _context.Facilities.First(x=>x.SiteCode==-1);
-
-
+            var masterFacility = _context.MasterFacilities.Find(-1011);
+            var masterFacilityVer2 = _context.MasterFacilities.Find(-1021);
+            var facility = _context.Facilities.First(x=>x.SiteCode==-1011);
 
             Assert.NotNull(masterFacility);
+            Assert.NotNull(masterFacilityVer2);
             Assert.NotNull(facility);
-            Console.WriteLine($"{masterFacility.Id},{masterFacility}");
+
             Console.WriteLine($"{originalMasterFacility.Id},{originalMasterFacility}");
-            Console.WriteLine($"{facility.SiteCode},{facility}");
+            Console.WriteLine($"{masterFacility.Id},{masterFacility}");
+            Console.WriteLine($"{masterFacilityVer2.Id},{masterFacility}");
+            Console.WriteLine($"{facility}");
         }
 
     }

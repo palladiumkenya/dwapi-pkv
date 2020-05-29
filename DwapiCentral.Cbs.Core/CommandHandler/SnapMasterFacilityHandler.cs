@@ -24,24 +24,22 @@ namespace DwapiCentral.Cbs.Core.CommandHandler
         public async Task<bool> Handle(SnapMasterFacility request, CancellationToken cancellationToken)
         {
             var mfl = _masterFacilityRepository.GetBySiteCode(request.SiteCode);
+            var mflSnaps = _masterFacilityRepository.GetLastSnapshots(request.SiteCode);
 
             if (null == mfl)
                 return true;
 
-            var snapMfl=mfl.TakeSnap();
+            var snapMfl=mfl.TakeSnap(mflSnaps);
             _masterFacilityRepository.Create(snapMfl);
             _masterFacilityRepository.Save();
-
 
             var fl = _facilityRepository.GetBySiteCode(request.SiteCode);
 
             if (null == fl)
                 return true;
 
-            var snapfl=fl.TakeSnap();
+            var snapfl=fl.TakeSnapFrom(snapMfl);
             _facilityRepository.Save();
-
-
 
             return await Task.FromResult(true);
         }

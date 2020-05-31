@@ -47,6 +47,9 @@ namespace DwapiCentral.Cbs.Core.Model
 
         public bool EmrChanged(string requestEmr)
         {
+            if (string.IsNullOrWhiteSpace(requestEmr))
+                return false;
+
             if (string.IsNullOrWhiteSpace(Emr))
                 return false;
 

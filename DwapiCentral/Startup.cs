@@ -33,6 +33,7 @@ namespace DwapiCentral
     {
         public IConfiguration Configuration { get; }
         public static IServiceProvider ServiceProvider { get; private set; }
+        public static bool AllowSnapshot { get; private set; }
 
         public Startup(IHostingEnvironment env)
         {
@@ -61,6 +62,7 @@ namespace DwapiCentral
             var connectionString = Configuration["ConnectionStrings:DwapiConnection"];
 
             var liveSync= Configuration["LiveSync"];
+            var allowSnapshot= Configuration["AllowSnapshot"];
 
             try
             {
@@ -95,6 +97,9 @@ namespace DwapiCentral
                 };
                 services.AddSingleton<HttpClient>(httpClient);
             }
+
+            if (!string.IsNullOrWhiteSpace(allowSnapshot))
+                AllowSnapshot = Convert.ToBoolean(allowSnapshot);
 
             services.AddSwaggerGen(c =>
             {

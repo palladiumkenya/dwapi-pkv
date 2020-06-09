@@ -43,7 +43,7 @@ namespace DwapiCentral.Cbs.Core.CommandHandler
 
             // Take Facility SnapShot for MPI only
 
-            if ( facility.EmrChanged(request.Emr))
+            if ( facility.EmrChanged(request.Emr) && request.AllowSnapshot)
             {
                 await _mediator.Send(new SnapMasterFacility(facility.SiteCode), cancellationToken);
 

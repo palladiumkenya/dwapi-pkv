@@ -10,6 +10,8 @@ namespace DwapiCentral.Cbs.Core.Command
 
         public bool IsMgs { get; set; }
 
+        public bool AllowSnapshot { get; set; }
+
         public SaveManifest()
         {
         }

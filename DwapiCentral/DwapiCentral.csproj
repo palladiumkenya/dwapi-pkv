@@ -10,6 +10,9 @@
 
   <ItemGroup>
     <None Remove="logs\.txt" />
+    <None Update="kenyahmis.pfx">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
   <ItemGroup>

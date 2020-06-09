@@ -4,7 +4,6 @@ using System.Linq;
 using DwapiCentral.Cbs.Core.Interfaces.Repository;
 using DwapiCentral.Cbs.Core.Interfaces.Service;
 using DwapiCentral.Cbs.Core.Model;
-using DwapiCentral.SharedKernel.Enums;
 using DwapiCentral.SharedKernel.Exceptions;
 using DwapiCentral.SharedKernel.Model;
 using Serilog;
@@ -15,16 +14,25 @@ namespace DwapiCentral.Cbs.Core.Service
     {
         private readonly IMasterPatientIndexRepository _manifestRepository;
         private readonly IFacilityRepository _facilityRepository;
+        private readonly ILiveSyncService _syncService;
         private List<SiteProfile> _siteProfiles = new List<SiteProfile>();
 
-        public MpiService(IMasterPatientIndexRepository manifestRepository, IFacilityRepository facilityRepository)
+        public MpiService(IMasterPatientIndexRepository manifestRepository, IFacilityRepository facilityRepository, ILiveSyncService syncService)
         {
             _manifestRepository = manifestRepository;
             _facilityRepository = facilityRepository;
+            _syncService = syncService;
         }
 
-        public void Process(IEnumerable<MasterPatientIndex> masterPatientIndices)
+        public void Process(IEnumerable<MasterPatientIndex> masterPatientIndices, bool sync = true)
         {
+            List<Guid> facilityIds = new List<Guid>();
+
+            if (null == masterPatientIndices)
+                return;
+            if (!masterPatientIndices.Any())
+                return;
+
             _siteProfiles = _facilityRepository.GetSiteProfiles().ToList();
 
             var batch = new List<MasterPatientIndex>();
@@ -32,10 +40,12 @@ namespace DwapiCentral.Cbs.Core.Service
 
             foreach (var masterPatientIndex in masterPatientIndices)
             {
+                count++;
                 try
                 {
                     masterPatientIndex.FacilityId = GetFacilityId(masterPatientIndex.SiteCode);
                     batch.Add(masterPatientIndex);
+                    facilityIds.Add(masterPatientIndex.FacilityId);
                 }
                 catch (Exception e)
                 {
@@ -55,7 +65,8 @@ namespace DwapiCentral.Cbs.Core.Service
             if (batch.Any())
                 _manifestRepository.CreateBulk(batch);
 
-
+            if (sync)
+                SyncClients(facilityIds);
 
         }
 
@@ -66,6 +77,14 @@ namespace DwapiCentral.Cbs.Core.Service
                 throw new FacilityNotFoundException(siteCode);
 
             return profile.FacilityId;
+        }
+
+        private void SyncClients(List<Guid> facIlds)
+        {
+            if (facIlds.Any())
+            {
+                _syncService.SyncStats(facIlds.Distinct().ToList());
+            }
         }
     }
 }

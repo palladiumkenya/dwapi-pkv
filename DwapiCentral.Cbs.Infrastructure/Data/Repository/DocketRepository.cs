@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Linq.Expressions;
-using System.Threading.Tasks;
-using DwapiCentral.Cbs.Core.Interfaces;
+﻿using System.Threading.Tasks;
 using DwapiCentral.Cbs.Core.Interfaces.Repository;
 using DwapiCentral.Cbs.Core.Model;
 using DwapiCentral.SharedKernel.Infrastructure.Data;
@@ -19,7 +14,12 @@ namespace DwapiCentral.Cbs.Infrastructure.Data.Repository
         public Task<Docket> FindAsync(string docket)
         {
            var ctx=Context as CbsContext;
-            return ctx.Dockets.Include(x => x.Subscribers).AsTracking().FirstOrDefaultAsync(x => x.Id == docket);
+
+           var dockeT= ctx.Dockets.Include(x => x.Subscribers)
+               .AsTracking()
+               .FirstOrDefaultAsync(x => x.Id == docket);
+
+           return dockeT;
         }
     }
 }

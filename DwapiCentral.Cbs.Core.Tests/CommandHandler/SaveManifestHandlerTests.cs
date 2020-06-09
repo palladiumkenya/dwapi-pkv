@@ -1,22 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using DwapiCentral.Cbs.Core.Command;
 using DwapiCentral.Cbs.Core.CommandHandler;
-using DwapiCentral.Cbs.Core.Interfaces;
 using DwapiCentral.Cbs.Core.Interfaces.Repository;
 using DwapiCentral.Cbs.Core.Model;
 using DwapiCentral.Cbs.Infrastructure.Data;
 using DwapiCentral.Cbs.Infrastructure.Data.Repository;
-using DwapiCentral.SharedKernel.Custom;
 using DwapiCentral.SharedKernel.Exceptions;
 using DwapiCentral.SharedKernel.Tests.TestData;
-using DwapiCentral.SharedKernel.Utils;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using NUnit.Framework;
-using NUnit.Framework.Interfaces;
 
 namespace DwapiCentral.Cbs.Core.Tests.CommandHandler
 {

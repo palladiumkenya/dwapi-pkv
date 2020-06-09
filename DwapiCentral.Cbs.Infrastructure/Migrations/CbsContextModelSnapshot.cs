@@ -15,7 +15,7 @@ namespace DwapiCentral.Cbs.Infrastructure.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "2.1.0-rtm-30799")
+                .HasAnnotation("ProductVersion", "2.1.4-rtm-31024")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
@@ -58,12 +58,20 @@ namespace DwapiCentral.Cbs.Infrastructure.Migrations
 
                     b.Property<DateTime>("DateCreated");
 
+                    b.Property<string>("Emr");
+
                     b.Property<int?>("MasterFacilityId");
 
                     b.Property<string>("Name")
                         .HasMaxLength(120);
 
                     b.Property<int>("SiteCode");
+
+                    b.Property<DateTime?>("SnapshotDate");
+
+                    b.Property<int?>("SnapshotSiteCode");
+
+                    b.Property<int?>("SnapshotVersion");
 
                     b.HasKey("Id");
 
@@ -81,7 +89,15 @@ namespace DwapiCentral.Cbs.Infrastructure.Migrations
 
                     b.Property<DateTime>("DateLogged");
 
+                    b.Property<Guid?>("EmrId");
+
+                    b.Property<string>("EmrName");
+
+                    b.Property<int>("EmrSetup");
+
                     b.Property<Guid>("FacilityId");
+
+                    b.Property<int>("ManifestType");
 
                     b.Property<string>("Name");
 
@@ -111,6 +127,12 @@ namespace DwapiCentral.Cbs.Infrastructure.Migrations
 
                     b.Property<string>("Name")
                         .HasMaxLength(120);
+
+                    b.Property<DateTime?>("SnapshotDate");
+
+                    b.Property<int?>("SnapshotSiteCode");
+
+                    b.Property<int?>("SnapshotVersion");
 
                     b.HasKey("Id");
 
@@ -239,6 +261,48 @@ namespace DwapiCentral.Cbs.Infrastructure.Migrations
                     b.ToTable("MasterPatientIndices");
                 });
 
+            modelBuilder.Entity("DwapiCentral.Cbs.Core.Model.MetricMigrationExtract", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<DateTime?>("CreateDate");
+
+                    b.Property<string>("Dataset");
+
+                    b.Property<DateTime>("DateCreated");
+
+                    b.Property<DateTime?>("DateExtracted");
+
+                    b.Property<string>("Emr");
+
+                    b.Property<Guid>("FacilityId");
+
+                    b.Property<string>("Metric");
+
+                    b.Property<int>("MetricId");
+
+                    b.Property<string>("MetricValue");
+
+                    b.Property<bool?>("Processed");
+
+                    b.Property<string>("Project");
+
+                    b.Property<string>("QueueId");
+
+                    b.Property<int>("SiteCode");
+
+                    b.Property<string>("Status");
+
+                    b.Property<DateTime?>("StatusDate");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("FacilityId");
+
+                    b.ToTable("MetricMigrationExtracts");
+                });
+
             modelBuilder.Entity("DwapiCentral.Cbs.Core.Model.Subscriber", b =>
                 {
                     b.Property<Guid>("Id")
@@ -284,6 +348,14 @@ namespace DwapiCentral.Cbs.Infrastructure.Migrations
                 {
                     b.HasOne("DwapiCentral.Cbs.Core.Model.Facility")
                         .WithMany("MasterPatientIndices")
+                        .HasForeignKey("FacilityId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("DwapiCentral.Cbs.Core.Model.MetricMigrationExtract", b =>
+                {
+                    b.HasOne("DwapiCentral.Cbs.Core.Model.Facility")
+                        .WithMany("MetricMigrationExtracts")
                         .HasForeignKey("FacilityId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });

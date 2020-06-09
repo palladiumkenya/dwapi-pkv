@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using DwapiCentral.Cbs.Core.Command;
 using DwapiCentral.Cbs.Core.Interfaces.Repository;
@@ -58,8 +57,9 @@ namespace DwapiCentral.Controllers
 
             try
             {
+                manifest.IsMgs = false;
                 var faciliyKey = await _mediator.Send(manifest, HttpContext.RequestAborted);
-                BackgroundJob.Enqueue(() => _manifestService.Process());
+                BackgroundJob.Enqueue(() => _manifestService.Process(true));
                 return Ok(new
                 {
                     FacilityKey = faciliyKey
@@ -81,7 +81,7 @@ namespace DwapiCentral.Controllers
 
             try
             {
-                var id=  BackgroundJob.Enqueue(() => _mpiService.Process(mpi.MasterPatientIndices));
+                var id=  BackgroundJob.Enqueue(() => _mpiService.Process(mpi.MasterPatientIndices,true));
                 return Ok(new
                 {
                     BatchKey = id

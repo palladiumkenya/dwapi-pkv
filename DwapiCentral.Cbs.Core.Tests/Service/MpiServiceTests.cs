@@ -1,18 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using DwapiCentral.Cbs.Core.Command;
-using DwapiCentral.Cbs.Core.CommandHandler;
-using DwapiCentral.Cbs.Core.Interfaces.Repository;
 using DwapiCentral.Cbs.Core.Interfaces.Service;
 using DwapiCentral.Cbs.Core.Model;
-using DwapiCentral.Cbs.Core.Service;
 using DwapiCentral.Cbs.Infrastructure.Data;
-using DwapiCentral.Cbs.Infrastructure.Data.Repository;
 using DwapiCentral.SharedKernel.Tests.TestData;
 using MediatR;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using NUnit.Framework;
 
@@ -20,7 +13,6 @@ namespace DwapiCentral.Cbs.Core.Tests.Service
 {
     public class MpiServiceTests
     {
-        private ServiceProvider _serviceProvider;
         private List<MasterPatientIndex> _patientIndices;
         private List<MasterPatientIndex> _patientIndicesSiteB;
         private CbsContext _context;
@@ -31,73 +23,44 @@ namespace DwapiCentral.Cbs.Core.Tests.Service
         [OneTimeSetUp]
         public void Init()
         {
-            var config = new ConfigurationBuilder()
-                .AddJsonFile("appsettings.json")
-                .Build();
-            var connectionString = config["ConnectionStrings:DwapiConnectionDev"];
-
-
-            _serviceProvider = new ServiceCollection()
-                .AddDbContext<CbsContext>(o => o.UseSqlServer(connectionString))
-                .AddScoped<IFacilityRepository, FacilityRepository>()
-                .AddScoped<IMasterFacilityRepository, MasterFacilityRepository>()
-                .AddScoped<IMasterPatientIndexRepository, MasterPatientIndexRepository>()
-                .AddScoped<IManifestRepository, ManifestRepository>()
-                .AddScoped<IMpiService, MpiService>()
-                .AddScoped<IManifestService, ManifestService>()
-                .AddMediatR(typeof(ValidateFacilityHandler))
-                .BuildServiceProvider();
-
-
-            _context = _serviceProvider.GetService<CbsContext>();
-            _context.Database.EnsureDeleted();
-            _context.Database.Migrate();
-            _context.MasterFacilities.AddRange(TestDataFactory.TestMasterFacilities());
+            TestInitializer.ClearDb();
+            TestInitializer.SeedData(TestDataFactory.TestMasterFacilities());
             var facilities = TestDataFactory.TestFacilities();
-            _context.Facilities.AddRange(facilities);
-            _context.SaveChanges();
-            _patientIndices = TestDataFactory.TestMasterPatientIndices(1, facilities.First(x=>x.SiteCode==1).Id);
-            _patientIndicesSiteB = TestDataFactory.TestMasterPatientIndices(2, facilities.First(x => x.SiteCode == 2).Id);
+            TestInitializer.SeedData(facilities);
+            _patientIndices = TestDataFactory.TestMasterPatientIndices(14950, facilities.First().Id);
+            _patientIndicesSiteB = TestDataFactory.TestMasterPatientIndices(12618, facilities.Last().Id);
         }
 
         [SetUp]
         public void SetUp()
         {
-            _manifestService = _serviceProvider.GetService<IManifestService>();
-            _mediator = _serviceProvider.GetService<IMediator>();
-            _mpiService = _serviceProvider.GetService<IMpiService>();
-            
+            _manifestService =TestInitializer.ServiceProvider.GetService<IManifestService>();
+            _mediator = TestInitializer.ServiceProvider.GetService<IMediator>();
+            _mpiService = TestInitializer.ServiceProvider.GetService<IMpiService>();
+            _context= TestInitializer.ServiceProvider.GetService<CbsContext>();
+
         }
         [Test]
         public void should_Process()
         {
-            var patients = _context.MasterPatientIndices.ToList();
-            Assert.False(patients.Any());
+            Assert.False(_context.MasterPatientIndices.Any(x => x.SiteCode==14950));
 
-            _mpiService.Process(_patientIndices);
-            var savedPatients = _context.MasterPatientIndices.ToList();
-            Assert.True(savedPatients.Any());
+            _mpiService.Process(_patientIndices,false);
+
+            Assert.True(_context.MasterPatientIndices.Any(x => x.SiteCode==14950));
         }
 
         [Test]
         public void should_Process_After_Manifest()
         {
-            var manifests = TestDataFactory.TestManifests();
-            manifests[0].SiteCode = 1;
-            manifests[1].SiteCode = 2;
-            var patients = _context.MasterPatientIndices.ToList();
-            Assert.False(patients.Any());
-
-            var id = _mediator.Send(new SaveManifest(manifests[0])).Result;
+            var manifest = TestDataFactory.TestManifests().First(x => x.SiteCode == 12618);
+            var mid = _mediator.Send(new SaveManifest(manifest)).Result;
             _manifestService.Process();
-            _mpiService.Process(_patientIndices);
-            Assert.True(_context.MasterPatientIndices.Any(x=>x.SiteCode==1));
+            Assert.False(_context.MasterPatientIndices.Any(x => x.SiteCode==12618));
 
-            var id2 = _mediator.Send(new SaveManifest(manifests[1])).Result;
-            _manifestService.Process();
             _mpiService.Process(_patientIndicesSiteB);
-            Assert.True(_context.MasterPatientIndices.Any(x => x.SiteCode == 1));
-            Assert.True(_context.MasterPatientIndices.Any(x => x.SiteCode == 2));
+
+            Assert.True(_context.MasterPatientIndices.Any(x=>x.SiteCode==12618));
         }
     }
 }

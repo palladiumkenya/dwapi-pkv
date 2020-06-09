@@ -1,6 +1,5 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations.Schema;
-using DwapiCentral.SharedKernel;
 using DwapiCentral.SharedKernel.Model;
 
 namespace DwapiCentral.Cbs.Core.Model

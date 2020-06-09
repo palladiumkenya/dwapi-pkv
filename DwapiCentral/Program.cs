@@ -1,12 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Logging;
 using Serilog;
 using Serilog.Events;
 
@@ -21,7 +17,7 @@ namespace DwapiCentral
                 .MinimumLevel.Override("Microsoft", LogEventLevel.Debug)
                 .Enrich.FromLogContext()
                 .WriteTo.Console(LogEventLevel.Debug)
-                .WriteTo.RollingFile("logs\\dwapicentrallog-{Date}.txt", LogEventLevel.Error)
+                .WriteTo.RollingFile("logs/dwapicentrallog-{Date}.txt", LogEventLevel.Error)
                 .CreateLogger();
 
             try

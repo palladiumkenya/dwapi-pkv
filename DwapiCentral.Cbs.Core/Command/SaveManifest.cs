@@ -8,6 +8,8 @@ namespace DwapiCentral.Cbs.Core.Command
     {
         public Manifest Manifest { get; set; }
 
+        public bool IsMgs { get; set; }
+
         public SaveManifest()
         {
         }

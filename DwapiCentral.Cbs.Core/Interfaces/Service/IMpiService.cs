@@ -5,6 +5,6 @@ namespace DwapiCentral.Cbs.Core.Interfaces.Service
 {
     public interface IMpiService
     {
-        void Process(IEnumerable<MasterPatientIndex> masterPatientIndices);
+        void Process(IEnumerable<MasterPatientIndex> masterPatientIndices,bool sync = true);
     }
 }

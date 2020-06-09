@@ -2,7 +2,6 @@
 using System.Threading;
 using System.Threading.Tasks;
 using DwapiCentral.Cbs.Core.Command;
-using DwapiCentral.Cbs.Core.Interfaces;
 using DwapiCentral.Cbs.Core.Interfaces.Repository;
 using DwapiCentral.Cbs.Core.Model;
 using MediatR;
@@ -28,13 +27,34 @@ namespace DwapiCentral.Cbs.Core.CommandHandler
 
             var facility =await _facilityRepository.GetAsync(x => x.SiteCode == request.SiteCode);
 
+            // Enroll New Site
             if (null == facility)
             {
-                var newFacility = new Facility(request.SiteCode, request.Name, mfl.Id);
+                var newFacility = new Facility(request.SiteCode, request.Name, mfl.Id) {Emr = request.Emr};
+
                 _facilityRepository.Create(newFacility);
                 await _facilityRepository.SaveAsync();
                 return newFacility.Id;
             }
+
+            if(request.IsMgs)
+                return facility.Id;
+
+
+            // Take Facility SnapShot for MPI only
+
+            if ( facility.EmrChanged(request.Emr))
+            {
+                await _mediator.Send(new SnapMasterFacility(facility.SiteCode), cancellationToken);
+
+                var newFacility = new Facility(request.SiteCode, request.Name, request.SiteCode) {Emr = request.Emr};
+
+                _facilityRepository.Create(newFacility);
+                await _facilityRepository.SaveAsync();
+                return newFacility.Id;
+            }
+
+
 
             return facility.Id;
         }

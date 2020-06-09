@@ -20,7 +20,7 @@ namespace DwapiCentral.Cbs.Core.CommandHandler
 
         public async Task<Guid> Handle(SaveManifest request, CancellationToken cancellationToken)
         {
-            var facilityId = await _mediator.Send(new EnrollFacility(request.Manifest.SiteCode,request.Manifest.Name), cancellationToken);
+            var facilityId = await _mediator.Send(new EnrollFacility(request.Manifest.SiteCode,request.Manifest.Name,request.Manifest.EmrName,request.IsMgs), cancellationToken);
 
             request.Manifest.UpdateFacility(facilityId);
             _repository.Create(request.Manifest);

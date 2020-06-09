@@ -1,12 +1,9 @@
-﻿using System.Linq;
-using System.Threading;
+﻿using System.Threading;
 using System.Threading.Tasks;
 using DwapiCentral.Cbs.Core.Command;
-using DwapiCentral.Cbs.Core.Interfaces;
 using DwapiCentral.Cbs.Core.Interfaces.Repository;
 using DwapiCentral.SharedKernel.Exceptions;
 using DwapiCentral.SharedKernel.Model;
-using DwapiCentral.SharedKernel.Utils;
 using MediatR;
 
 namespace DwapiCentral.Cbs.Core.CommandHandler
@@ -31,7 +28,7 @@ namespace DwapiCentral.Cbs.Core.CommandHandler
             if (!docket.SubscriberExists(request.SubscriberId))
                 throw new SubscriberNotFoundException(request.SubscriberId);
 
-            if (docket.SubscriberAuthorized(request.SubscriberId, request.AuthToken))
+            if (docket.SubscriberAuthorized(request.SubscriberId,request.DocketId, request.AuthToken))
                     return new VerificationResponse(docket.Name,true);
 
             throw new SubscriberNotAuthorizedException(request.SubscriberId);

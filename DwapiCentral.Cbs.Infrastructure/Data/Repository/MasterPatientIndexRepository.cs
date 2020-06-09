@@ -5,12 +5,10 @@ using System.Data.SqlClient;
 using System.Linq;
 using AutoMapper;
 using DwapiCentral.Cbs.Core.Command;
-using DwapiCentral.Cbs.Core.Interfaces;
 using DwapiCentral.Cbs.Core.Interfaces.Repository;
 using DwapiCentral.Cbs.Core.Model;
 using DwapiCentral.SharedKernel.DTOs;
 using DwapiCentral.SharedKernel.Infrastructure.Data;
-using Microsoft.EntityFrameworkCore;
 
 namespace DwapiCentral.Cbs.Infrastructure.Data.Repository
 {

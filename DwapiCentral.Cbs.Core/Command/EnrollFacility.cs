@@ -7,17 +7,16 @@ namespace DwapiCentral.Cbs.Core.Command
     {
         public int SiteCode { get; }
         public string Name { get;  }
-        public int MflCode { get; }
+        public string Emr { get; set; }
 
-        public EnrollFacility(int siteCode, string name)
+        public bool IsMgs { get; }
+
+        public EnrollFacility(int siteCode, string name,string emr,bool isMgs=false)
         {
             SiteCode = siteCode;
             Name = name;
-        }
-
-        public EnrollFacility(int siteCode, string name, int mflCode):this(siteCode,name)
-        {
-            MflCode = mflCode;
+            Emr = emr;
+            IsMgs = isMgs;
         }
     }
 }

@@ -2,6 +2,6 @@
 {
     public interface IManifestService
     {
-        void Process();
+        void Process(bool sync = true);
     }
 }

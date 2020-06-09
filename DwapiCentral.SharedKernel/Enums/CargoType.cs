@@ -2,12 +2,26 @@
 {
     public enum CargoType
     {
-        Patient
+        Patient,
+        Metrics,
+        AppMetrics,
+        MgsMetrics
     }
 
     public enum ManifestStatus
     {
         Staged,
         Processed
+    }
+    public enum ManifestType
+    {
+        Normal,
+        Migration
+    }
+
+    public enum EmrSetup
+    {
+        SingleFacility,
+        MultiFacility
     }
 }

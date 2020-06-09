@@ -1,5 +1,4 @@
 ﻿using System;
-using System.ComponentModel.DataAnnotations.Schema;
 using DwapiCentral.SharedKernel.Enums;
 using DwapiCentral.SharedKernel.Model;
 
@@ -13,6 +12,13 @@ namespace DwapiCentral.Cbs.Core.Model
 
         public Cargo()
         {
+        }
+
+        public Cargo(CargoType type, string items, Guid manifestId)
+        {
+            Type = type;
+            Items = items;
+            ManifestId = manifestId;
         }
     }
 }

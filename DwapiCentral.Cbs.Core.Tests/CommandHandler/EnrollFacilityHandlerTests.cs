@@ -1,7 +1,6 @@
 ﻿using System;
 using DwapiCentral.Cbs.Core.Command;
 using DwapiCentral.Cbs.Core.CommandHandler;
-using DwapiCentral.Cbs.Core.Interfaces;
 using DwapiCentral.Cbs.Core.Interfaces.Repository;
 using DwapiCentral.Cbs.Core.Model;
 using DwapiCentral.Cbs.Infrastructure.Data;
@@ -36,7 +35,7 @@ namespace DwapiCentral.Cbs.Core.Tests.CommandHandler
             _context = _serviceProvider.GetService<CbsContext>();
             _context.MasterFacilities.Add(new MasterFacility(1, "XFacility", "XCounty"));
             _context.MasterFacilities.Add(new MasterFacility(2, "YFacility", "YCounty"));
-            _context.Facilities.Add(new Facility(1, "XFacility District", 1));
+            _context.Facilities.Add(new Facility(1, "XFacility District", 1){Emr = "IQCare"});
             _context.SaveChanges();
         }
 
@@ -84,9 +83,25 @@ namespace DwapiCentral.Cbs.Core.Tests.CommandHandler
             Console.WriteLine(facility);
         }
 
+        [Test]
+        public void should_Snap_Enroll_New_Facility()
+        {
+            var facilityId = _mediator.Send(new EnrollFacility(1, "XFac (Ke)", "KenyaEMR")).Result;
+            var facilityIdVer2 = _mediator.Send(new EnrollFacility(1, "XFac (IQ)", "IQCare")).Result;
+
+            var facility = _context.Facilities.Find(facilityId);
+            var mflfacility = _context.MasterFacilities.Find(facility.SiteCode);
+
+            Assert.False(facilityId.IsNullOrEmpty());
+            Assert.AreEqual(facilityId, facility.Id);
+            Assert.True(facility.MasterFacilityId.HasValue);
+            Assert.AreEqual(mflfacility.Id, facility.MasterFacilityId.Value);
+            Console.WriteLine(facility);
+        }
+
         private Guid EnrollFacility(Facility facility)
         {
-            return _mediator.Send(new EnrollFacility(facility.SiteCode, facility.Name)).Result;
+            return _mediator.Send(new EnrollFacility(facility.SiteCode, facility.Name,"IQCare")).Result;
         }
     }
 }

@@ -1,5 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.Reflection;
+﻿using System.Reflection;
 using CsvHelper.Configuration;
 using DwapiCentral.Cbs.Core.Model;
 using DwapiCentral.SharedKernel.Infrastructure.Data;
@@ -21,7 +20,8 @@ namespace DwapiCentral.Cbs.Infrastructure.Data
         public DbSet<Manifest> Manifests { get; set; }
         public DbSet<Cargo> Cargoes { get; set; }
         public DbSet<MasterPatientIndex> MasterPatientIndices { get; set; }
-        
+        public DbSet<MetricMigrationExtract> MetricMigrationExtracts { get; set; }
+
         public CbsContext(DbContextOptions<CbsContext> options) : base(options)
         {
         }
@@ -44,6 +44,7 @@ namespace DwapiCentral.Cbs.Infrastructure.Data
             DapperPlusManager.Entity<Manifest>().Key(x => x.Id).Table($"{nameof(CbsContext.Manifests)}");
             DapperPlusManager.Entity<Cargo>().Key(x => x.Id).Table($"{nameof(CbsContext.Cargoes)}");
             DapperPlusManager.Entity<MasterPatientIndex>().Key(x => x.Id).Table($"{nameof(CbsContext.MasterPatientIndices)}");
+            DapperPlusManager.Entity<MetricMigrationExtract>().Key(x => x.Id).Table($"{nameof(CbsContext.MetricMigrationExtracts)}");
 
         }
 
@@ -60,7 +61,7 @@ namespace DwapiCentral.Cbs.Infrastructure.Data
 
             SeederConfiguration.ResetConfiguration(csvConfig, null, typeof(CbsContext).GetTypeInfo().Assembly);
 
-            MasterFacilities.SeedDbSetIfEmpty($"{nameof(MasterFacility)}");
+            //MasterFacilities.SeedDbSetIfEmpty($"{nameof(MasterFacility)}");
             Dockets.SeedDbSetIfEmpty($"{nameof(Docket)}");
             SaveChanges();
             Subscribers.SeedDbSetIfEmpty($"{nameof(Subscriber)}");

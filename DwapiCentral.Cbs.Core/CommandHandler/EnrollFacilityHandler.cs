@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using DwapiCentral.Cbs.Core.Command;
 using DwapiCentral.Cbs.Core.Interfaces.Repository;
 using DwapiCentral.Cbs.Core.Model;
+using DwapiCentral.SharedKernel.Utils;
 using MediatR;
 
 namespace DwapiCentral.Cbs.Core.CommandHandler
@@ -27,7 +28,10 @@ namespace DwapiCentral.Cbs.Core.CommandHandler
 
             var facility =await _facilityRepository.GetAsync(x => x.SiteCode == request.SiteCode);
 
+            request.Emr = request.Emr.IsSameAs("CHAK") ? "IQCare" : request.Emr;
+
             // Enroll New Site
+
             if (null == facility)
             {
                 var newFacility = new Facility(request.SiteCode, request.Name, mfl.Id) {Emr = request.Emr};

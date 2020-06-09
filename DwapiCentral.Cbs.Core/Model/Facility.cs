@@ -53,7 +53,13 @@ namespace DwapiCentral.Cbs.Core.Model
             if (string.IsNullOrWhiteSpace(Emr))
                 return false;
 
-            return !Emr.IsSameAs(requestEmr);
+            if (requestEmr.IsSameAs("CHAK"))
+                requestEmr = "IQCare";
+
+            if (requestEmr.IsSameAs("IQCare") || requestEmr.IsSameAs("KenyaEMR"))
+                return !Emr.IsSameAs(requestEmr);
+
+            return false;
         }
 
         public Facility TakeSnapFrom(MasterFacility snapMfl)

@@ -33,10 +33,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Wapi", "Wapi", "{2C7629BE-D
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DwapiCentral", "DwapiCentral\DwapiCentral.csproj", "{8A9C0692-2393-4624-9254-9D9B577FD87A}"
 EndProject
-Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{799D396A-BA2F-44EE-A12B-38417CE15672}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Docker", "Docker", "{2BAECC18-C731-43DE-B37E-2CD69FCC6FBE}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -79,10 +75,6 @@ Global
 		{8A9C0692-2393-4624-9254-9D9B577FD87A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8A9C0692-2393-4624-9254-9D9B577FD87A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8A9C0692-2393-4624-9254-9D9B577FD87A}.Release|Any CPU.Build.0 = Release|Any CPU
-		{799D396A-BA2F-44EE-A12B-38417CE15672}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{799D396A-BA2F-44EE-A12B-38417CE15672}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{799D396A-BA2F-44EE-A12B-38417CE15672}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{799D396A-BA2F-44EE-A12B-38417CE15672}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -100,7 +92,6 @@ Global
 		{43552933-C2DF-4B3B-A797-147431634819} = {80B80A93-0D42-4AFB-92F5-6345FA24B110}
 		{9FF2BF59-FDA7-43DB-9F2D-C0A15CACB4E6} = {AD6B0CCD-C849-44EF-AC51-9C6FEDE6B62C}
 		{8A9C0692-2393-4624-9254-9D9B577FD87A} = {2C7629BE-DCBF-4266-82A7-4758602744A6}
-		{799D396A-BA2F-44EE-A12B-38417CE15672} = {2BAECC18-C731-43DE-B37E-2CD69FCC6FBE}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {1845D60F-C07B-4BB6-B482-6CF1F5FE6A47}

@@ -153,7 +153,7 @@ namespace DwapiCentral
             try
             {
                 app.UseHangfireDashboard();
-                var options = new BackgroundJobServerOptions { WorkerCount = 1 };
+                var options = new BackgroundJobServerOptions {ServerName  = "DWAPIPKVMAIN",WorkerCount = 1 };
                 app.UseHangfireServer(options);
             }
             catch (Exception e)

@@ -112,5 +112,26 @@ namespace DwapiCentral.Controllers
                 return StatusCode(500, e.Message);
             }
         }
+
+        // GET api/Cbs/Status
+        [HttpGet("Status")]
+        public IActionResult GetStatus()
+        {
+            try
+            {
+                var ver = GetType().Assembly.GetName().Version;
+                return Ok(new
+                {
+                    Status = "Online",
+                    Ver = $"{ver.Major}.{ver.Minor}.{ver.Build}.{ver.Revision}",
+                    Rel = "19AUG201943"
+                });
+            }
+            catch (Exception e)
+            {
+                Log.Error(e, "status error");
+                return StatusCode(500, e.Message);
+            }
+        }
     }
 }

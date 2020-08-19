@@ -6,6 +6,7 @@
     <UserSecretsId>682e27da-c120-4092-804d-b09268be87ff</UserSecretsId>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <NoWarn>$(NoWarn);1591</NoWarn>
+    <Version>1.0.0.3</Version>
   </PropertyGroup>
 
   <ItemGroup>

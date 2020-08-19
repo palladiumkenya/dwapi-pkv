@@ -43,6 +43,7 @@ namespace DwapiCentral.Cbs.Core.Service
                 count++;
                 try
                 {
+                    masterPatientIndex.UpdateRef();
                     masterPatientIndex.FacilityId = GetFacilityId(masterPatientIndex.SiteCode);
                     batch.Add(masterPatientIndex);
                     facilityIds.Add(masterPatientIndex.FacilityId);

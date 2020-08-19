@@ -73,7 +73,7 @@ namespace DwapiCentral.Cbs.Infrastructure.Data.Repository
             string sql = $@"
 select
 (select top 1 SiteCode from Facilities where id='{facilityId}') FacilityCode,
-(select max(DateCreated) from MasterPatientIndices where facilityid='{facilityId}') Updated,
+(select ISNULL(max(DateCreated),GETDATE()) from MasterPatientIndices where facilityid='{facilityId}') Updated,
 (select count(id) from MasterPatientIndices where facilityid='{facilityId}') MasterPatientIndex
                 ";
 
@@ -94,7 +94,7 @@ select
             string sql = $@"
 select
 (select top 1 SiteCode from Facilities where id='{facilityId}') FacilityCode,
-(select max(DateCreated) from MetricMigrationExtracts where facilityid='{facilityId}') Updated,
+(select ISNULL(max(DateCreated),GETDATE()) from MetricMigrationExtracts where facilityid='{facilityId}') Updated,
 (select count(id) from MetricMigrationExtracts where Metric='persons' and facilityid='{facilityId}') Persons
                 ";
 

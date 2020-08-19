@@ -101,9 +101,16 @@ namespace DwapiCentral.Cbs.Core.Model
         public virtual DateTime? StatusDate { get; set; }
         public DateTime DateCreated { get; set; } = DateTime.Now;
         public Guid FacilityId { get; set; }
+        public Guid? RefId { get; set; }
 
         public MasterPatientIndex()
         {
+        }
+
+        public void UpdateRef()
+        {
+            RefId = Id;
+            Id = Guid.NewGuid();
         }
     }
 }

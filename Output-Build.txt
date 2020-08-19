@@ -1,0 +1,5 @@
+﻿1>------ Build started: Project: DwapiCentral.Cbs.Infrastructure, Configuration: Debug Any CPU ------
+1>DwapiCentral.Cbs.Infrastructure -> F:\Palladium\dwh\pkv\DwapiCentral.Cbs.Infrastructure\bin\Debug\netcoreapp2.1\DwapiCentral.Cbs.Infrastructure.dll
+2>------ Build started: Project: DwapiCentral.Cbs.Core.Tests, Configuration: Debug Any CPU ------
+2>DwapiCentral.Cbs.Core.Tests -> F:\Palladium\dwh\pkv\DwapiCentral.Cbs.Core.Tests\bin\Debug\netcoreapp2.1\DwapiCentral.Cbs.Core.Tests.dll
+========== Build: 2 succeeded, 0 failed, 4 up-to-date, 0 skipped ==========

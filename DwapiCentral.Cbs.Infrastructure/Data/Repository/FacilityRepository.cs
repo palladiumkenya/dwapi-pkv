@@ -14,8 +14,6 @@ namespace DwapiCentral.Cbs.Infrastructure.Data.Repository
 {
     public class FacilityRepository : BaseRepository<Facility, Guid>, IFacilityRepository
     {
-        private IFacilityRepository _facilityRepositoryImplementation;
-
         public FacilityRepository(CbsContext context) : base(context)
         {
         }

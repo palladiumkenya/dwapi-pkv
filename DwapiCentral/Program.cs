@@ -43,7 +43,7 @@ namespace DwapiCentral
                 .Build();
 
             var host = WebHost.CreateDefaultBuilder(args)
-                .UseKestrel()
+                .UseKestrel(options => { options.Limits.MaxRequestBodySize = null; })
                 .UseConfiguration(config)
                 .UseContentRoot(Directory.GetCurrentDirectory())
                 .UseStartup<Startup>()

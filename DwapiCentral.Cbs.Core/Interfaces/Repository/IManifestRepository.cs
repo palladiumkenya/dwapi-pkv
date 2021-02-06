@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using DwapiCentral.Cbs.Core.Model;
 using DwapiCentral.SharedKernel.Interfaces;
 
@@ -12,5 +13,6 @@ namespace DwapiCentral.Cbs.Core.Interfaces.Repository
         int GetPatientCount(Guid id);
         IEnumerable<Manifest> GetStaged();
         IEnumerable<Manifest> GetStagedMetrics();
+        Task EndSession(Guid session);
     }
 }

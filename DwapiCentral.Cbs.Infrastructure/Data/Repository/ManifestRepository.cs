@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
+using Dapper;
 using DwapiCentral.Cbs.Core.Interfaces.Repository;
 using DwapiCentral.Cbs.Core.Model;
 using DwapiCentral.SharedKernel.Enums;
@@ -105,6 +107,13 @@ namespace DwapiCentral.Cbs.Infrastructure.Data.Repository
 
             return manifests;
 
+        }
+
+        public async Task EndSession(Guid session)
+        {
+            var end = DateTime.Now;
+            var sql = $"UPDATE {nameof(CbsContext.Manifests)} SET [{nameof(Manifest.End)}]=@end WHERE [{nameof(Manifest.Session)}]=@session";
+            await Context.Database.GetDbConnection().ExecuteAsync(sql, new {session, end});
         }
     }
 }

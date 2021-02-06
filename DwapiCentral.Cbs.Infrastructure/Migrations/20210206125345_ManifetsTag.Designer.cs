@@ -4,14 +4,16 @@ using DwapiCentral.Cbs.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace DwapiCentral.Cbs.Infrastructure.Migrations
 {
     [DbContext(typeof(CbsContext))]
-    partial class CbsContextModelSnapshot : ModelSnapshot
+    [Migration("20210206125345_ManifetsTag")]
+    partial class ManifetsTag
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

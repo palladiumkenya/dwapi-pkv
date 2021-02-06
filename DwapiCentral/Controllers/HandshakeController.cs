@@ -6,7 +6,7 @@ using Serilog;
 
 namespace DwapiCentral.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/cbs/[controller]")]
     [ApiController]
     public class HandshakeController : ControllerBase
     {

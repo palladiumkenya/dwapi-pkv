@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using DwapiCentral.Cbs.Core.Model;
+using DwapiCentral.Cbs.Core.Model.Dto;
 using DwapiCentral.SharedKernel.Interfaces;
 
 namespace DwapiCentral.Cbs.Core.Interfaces.Repository
@@ -14,5 +15,6 @@ namespace DwapiCentral.Cbs.Core.Interfaces.Repository
         IEnumerable<Manifest> GetStaged();
         IEnumerable<Manifest> GetStagedMetrics();
         Task EndSession(Guid session);
+        IEnumerable<HandshakeDto> GetSessionHandshakes(Guid session);
     }
 }

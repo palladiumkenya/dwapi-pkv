@@ -122,9 +122,9 @@ namespace DwapiCentral.Controllers
                 var ver = GetType().Assembly.GetName().Version;
                 return Ok(new
                 {
-                    Status = "Online",
-                    Ver = $"{ver.Major}.{ver.Minor}.{ver.Build}.{ver.Revision}",
-                    Rel = "19AUG201943"
+                    name="Dwapi Central API (PKV)",
+                    status = "Running",
+                    build = "09FEB211631"
                 });
             }
             catch (Exception e)

@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Dapper;
 using DwapiCentral.Cbs.Core.Interfaces.Repository;
 using DwapiCentral.Cbs.Core.Model;
+using DwapiCentral.Cbs.Core.Model.Dto;
 using DwapiCentral.SharedKernel.Enums;
 using DwapiCentral.SharedKernel.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
@@ -114,6 +115,16 @@ namespace DwapiCentral.Cbs.Infrastructure.Data.Repository
             var end = DateTime.Now;
             var sql = $"UPDATE {nameof(CbsContext.Manifests)} SET [{nameof(Manifest.End)}]=@end WHERE [{nameof(Manifest.Session)}]=@session";
             await Context.Database.GetDbConnection().ExecuteAsync(sql, new {session, end});
+        }
+
+        public IEnumerable<HandshakeDto> GetSessionHandshakes(Guid session)
+        {
+            var sql = $"SELECT * FROM {nameof(CbsContext.Manifests)} WHERE [{nameof(Manifest.Session)}]=@session";
+            var manifests = Context.Database.GetDbConnection().Query<Manifest>(sql,new{session}).ToList();
+            return manifests.Select(x => new HandshakeDto()
+            {
+                Id = x.Id, End = x.End, Session = x.Session, Start = x.Start
+            });
         }
     }
 }

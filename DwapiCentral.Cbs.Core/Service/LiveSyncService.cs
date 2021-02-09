@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Text;
+using System.Threading.Tasks;
 using DwapiCentral.Cbs.Core.Exchange;
 using DwapiCentral.Cbs.Core.Interfaces.Repository;
 using DwapiCentral.Cbs.Core.Interfaces.Service;
@@ -78,6 +79,24 @@ namespace DwapiCentral.Cbs.Core.Service
                 var toSend = new StringContent(content, Encoding.UTF8, "application/json");
                 var response = await _httpClient.PostAsync(requestEndpoint, toSend
                 );
+                response.EnsureSuccessStatusCode();
+            }
+            catch (Exception e)
+            {
+                Log.Error($"{requestEndpoint} POST...");
+                Log.Error(e.Message);
+            }
+        }
+
+        public async Task SyncHandshake(List<HandshakeDto> dto)
+        {
+            string requestEndpoint = "handshake";
+
+            try
+            {
+                var content = JsonConvert.SerializeObject(dto,_serializerSettings);
+                var toSend=new StringContent(content, Encoding.UTF8, "application/json");
+                var response = await _httpClient.PostAsync(requestEndpoint,toSend);
                 response.EnsureSuccessStatusCode();
             }
             catch (Exception e)

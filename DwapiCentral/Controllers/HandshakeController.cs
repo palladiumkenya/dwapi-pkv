@@ -1,6 +1,8 @@
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 using DwapiCentral.Cbs.Core.Interfaces.Repository;
+using DwapiCentral.Cbs.Core.Interfaces.Service;
 using Microsoft.AspNetCore.Mvc;
 using Serilog;
 
@@ -11,10 +13,11 @@ namespace DwapiCentral.Controllers
     public class HandshakeController : ControllerBase
     {
         private readonly IManifestRepository _manifestRepository;
-
-        public HandshakeController(IManifestRepository manifestRepository)
+        private readonly ILiveSyncService _liveSyncService;
+        public HandshakeController(IManifestRepository manifestRepository, ILiveSyncService liveSyncService)
         {
             _manifestRepository = manifestRepository;
+            _liveSyncService = liveSyncService;
         }
 
         [HttpPost]
@@ -23,6 +26,10 @@ namespace DwapiCentral.Controllers
             try
             {
                 await _manifestRepository.EndSession(session);
+                var handshakes = _manifestRepository
+                    .GetSessionHandshakes(session)
+                    .ToList();
+                await _liveSyncService.SyncHandshake(handshakes);
                 return Ok(session);
             }
             catch (Exception e)
